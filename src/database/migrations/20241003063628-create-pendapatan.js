@@ -15,6 +15,10 @@ module.exports = {
       tipe_pendapatan_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "tipe_pendapatans",
+          key: "id",
+        },
       },
       user_id: {
         type: Sequelize.INTEGER,

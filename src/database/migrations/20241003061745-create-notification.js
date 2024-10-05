@@ -15,6 +15,10 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       keterangan: {
         type: Sequelize.STRING,
@@ -23,6 +27,10 @@ module.exports = {
       tipe_notification_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "tipe_notifications",
+          key: "id",
+        },
       },
       code: {
         type: Sequelize.INTEGER,

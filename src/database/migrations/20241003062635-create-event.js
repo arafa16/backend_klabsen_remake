@@ -35,6 +35,10 @@ module.exports = {
       tipe_absen_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "tipe_absens",
+          key: "id",
+        },
       },
       code: {
         type: Sequelize.INTEGER,

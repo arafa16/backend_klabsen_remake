@@ -13,7 +13,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       tanggal_mulai: {
         type: Sequelize.DATE,
@@ -26,18 +31,34 @@ module.exports = {
       tipe_absen_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "tipe_absens",
+          key: "id",
+        },
       },
       pelanggaran_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "pelanggarans",
+          key: "id",
+        },
       },
       status_inout_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "status_inouts",
+          key: "id",
+        },
       },
       jam_operasional_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "jam_operasionals",
+          key: "id",
+        },
       },
       is_absen_web: {
         type: Sequelize.BOOLEAN,

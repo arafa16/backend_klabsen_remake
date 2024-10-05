@@ -42,6 +42,10 @@ module.exports = {
       gander_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "ganders",
+          key: "id",
+        },
       },
       extention: {
         type: Sequelize.STRING,
@@ -57,11 +61,19 @@ module.exports = {
       },
       jabatan_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "jabatans",
+            key: "id",
+          },
       },
       atasan_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "users",
+            key: "id",
+          },
       },
       nomor_ktp:{
           type: Sequelize.STRING,
@@ -89,7 +101,11 @@ module.exports = {
       },
       status_perkawinan_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "status_perkawinans",
+            key: "id",
+          },
       },
       jumlah_anak:{
           type: Sequelize.INTEGER,
@@ -101,7 +117,12 @@ module.exports = {
       },
       pendidikan_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "pendidikans",
+            key: "id",
+          },
+          
       },
       nama_sekolah:{
           type: Sequelize.STRING,
@@ -129,7 +150,11 @@ module.exports = {
       },
       contact_emergency_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "contact_emergancies",
+            key: "id",
+          },
       },
       emergency_number:{
           type: Sequelize.STRING,
@@ -145,11 +170,19 @@ module.exports = {
       },
       golongan_darah_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "golongan_darahs",
+            key: "id",
+          },
       },
       bank_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "banks",
+            key: "id",
+          },
       },
       nomor_rekening:{
           type: Sequelize.STRING,
@@ -157,11 +190,19 @@ module.exports = {
       },
       jam_operasional_group_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "jam_operasional_groups",
+            key: "id",
+          },
       },
       group_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "groups",
+            key: "id",
+          },
       },
       quote:{
           type: Sequelize.STRING,
@@ -169,11 +210,19 @@ module.exports = {
       },
       privilege_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "privileges",
+            key: "id",
+          },
       },
       status_id:{
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references: {
+            model: "statuses",
+            key: "id",
+          },
       },
       is_atasan:{
           type: Sequelize.BOOLEAN,

@@ -15,6 +15,10 @@ module.exports = {
       jam_operasional_group_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "jam_operasional_groups",
+          key: "id",
+        },
       },
       name: {
         type: Sequelize.STRING,

@@ -15,6 +15,10 @@ module.exports = {
       koreksi_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "koreksis",
+          key: "id",
+        },
       },
       keterangan: {
         type: Sequelize.TEXT,
@@ -23,6 +27,10 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       is_active: {
         type: Sequelize.BOOLEAN,

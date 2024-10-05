@@ -15,6 +15,10 @@ module.exports = {
       calculation_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "calculations",
+          key: "id",
+        },
       },
       name: {
         type: Sequelize.STRING,
