@@ -14,7 +14,7 @@ const {
     status:statusModal,
     privilege:privilegeModal,
 } = require('../models');
-const {Op} = require('sequelize');
+const {Op, where} = require('sequelize');
 const argon = require('argon2');
 
 const getUserTable = async(req, res) => {
@@ -277,6 +277,117 @@ const createUser = async(req, res) => {
     }
 }
 
+const updateUser = async(req, res) => {
+    const { nik,
+            absen_id, 
+            name, 
+            gander_id, 
+            email,
+            extention,
+            nomor_hp,
+            penempatan_id,
+            jabatan_id,
+            atasan_id,
+            nomor_ktp,
+            alamat_ktp,
+            alamat_domisili,
+            tempat_lahir,
+            tanggal_lahir,
+            nomor_npwp,
+            status_perkawinan_id,
+            jumlah_anak,
+            nama_ibu,
+            pendidikan_id,
+            nama_sekolah,
+            jurusan_sekolah,
+            tahun_lulus,
+            ipk,
+            nomor_bpjs_kesehatan,
+            nomor_bpjs_ketenagakerjaan,
+            contact_emergency_id,
+            emergency_number,
+            emergency_address,
+            nomor_sim,
+            golongan_darah_id,
+            bank_id,
+            nomor_rekening,
+            jamOperasional_group_id,
+            group_id,
+            quote,
+            status_id,
+            is_atasan,
+            is_active
+        } = req.body;
+
+    try {
+        const result = await userModel.findOne({
+            where:{
+                uuid:req.params.id
+            }
+        })
+        
+        result.update({
+            nik,
+            absen_id,
+            name, 
+            gander_id, 
+            email,
+            extention,
+            nomor_hp,
+            penempatan_id,
+            jabatan_id,
+            atasan_id,
+            nomor_ktp,
+            alamat_ktp,
+            alamat_domisili,
+            tempat_lahir,
+            tanggal_lahir,
+            nomor_npwp,
+            status_perkawinan_id,
+            jumlah_anak,
+            nama_ibu,
+            pendidikan_id,
+            nama_sekolah,
+            jurusan_sekolah,
+            tahun_lulus,
+            ipk,
+            nomor_bpjs_kesehatan,
+            nomor_bpjs_ketenagakerjaan,
+            contact_emergency_id,
+            emergency_number,
+            emergency_address,
+            nomor_sim,
+            golongan_darah_id,
+            bank_id,
+            nomor_rekening,
+            jamOperasional_group_id,
+            group_id,
+            quote,
+            status_id,
+            is_atasan,
+            is_active
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            data: {
+                data:result,
+                message: "success"
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            data: {
+                message: error
+            }
+        });
+    }
+}
+
 const deleteUser = async(req, res) => {
     const {id} = req.params;
 
@@ -320,5 +431,6 @@ module.exports = {
     getUserTable,
     getUserById,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 }
