@@ -10,7 +10,51 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      user.belongsTo(models.status,{
+        foreignKey:"status_id"
+      });
+      user.belongsTo(models.gander,{
+        foreignKey:"gander_id"
+      });
+      user.belongsTo(models.pendidikan,{
+        foreignKey:"pendidikan_id"
+      });
+      user.belongsTo(models.jabatan,{
+        foreignKey:"jabatan_id"
+      });
+      user.belongsTo(models.privilege,{
+        foreignKey:"privilege_id"
+      });
+      user.belongsTo(models.penempatan,{
+        foreignKey:"penempatan_id"
+      });
+      user.belongsTo(models.status_perkawinan,{
+        foreignKey:"status_perkawinan_id"
+      });
+      user.belongsTo(models.contact_emergency,{
+        foreignKey:"contact_emergency_id"
+      });
+      user.belongsTo(models.bank,{
+        foreignKey:"bank_id"
+      });
+      user.belongsTo(models.golongan_darah,{
+        foreignKey:"golongan_darah_id"
+      });
+      user.belongsTo(models.jam_operasional_group,{
+        foreignKey:"jam_operasional_group_id"
+      });
+      user.belongsTo(models.group,{
+        foreignKey:"group_id"
+      });
+      user.belongsTo(models.status,{
+        foreignKey:"status_id"
+      });
+      user.belongsTo(models.privilege,{
+        foreignKey:"privilege_id"
+      });
+      user.belongsTo(user, {
+        as: 'atasan', foreignKey: 'atasan_id'
+      });
     }
   }
   user.init({

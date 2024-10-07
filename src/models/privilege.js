@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     dashboard: DataTypes.BOOLEAN,
     edit_user_sub: DataTypes.BOOLEAN,
-    abse: DataTypes.BOOLEAN,
+    absen: DataTypes.BOOLEAN,
     kalendar_sub: DataTypes.BOOLEAN,
     pengajuan_koreksi_sub: DataTypes.BOOLEAN,
     approval_koreksi_sub: DataTypes.BOOLEAN,

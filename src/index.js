@@ -6,6 +6,8 @@ const SequelizeStore = require('connect-session-sequelize');
 const db = require('./models/index.js');
 
 const auth_router = require('./routes/auth.route.js');
+const reset_password_router = require('./routes/reset_password.route.js');
+const user_router = require('./routes/user.route.js');
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.use(express.json());
 
 //router
 app.use('/auth', auth_router);
+app.use('/reset', reset_password_router);
+app.use('/user', user_router);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');

@@ -22,7 +22,7 @@ module.exports = {
         allowNull: true,
         defaultValue: false,
       },
-      abse: {
+      absen: {
         type: Sequelize.BOOLEAN,
         allowNull: true,
         defaultValue: false,
