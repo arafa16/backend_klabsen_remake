@@ -9,7 +9,7 @@ const {
     updatePassword,
 } = require('../controllers/user.controller.js');
 
-const { importUser } = require('../controllers/import_user.controller.js');
+const { importUser } = require('../controllers/import_export_user.controller.js');
 
 const router = express.Router();
 

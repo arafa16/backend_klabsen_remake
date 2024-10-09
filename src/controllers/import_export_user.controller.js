@@ -12,7 +12,7 @@ const {
     jam_operasional_group:jamOperasionalGroupModel,
     group:groupModel,
     privilege:privilegeModel,
-} = require('../models');
+} = require('../models/index.js');
 const argon = require('argon2');
 const path = require('path');
 const fs = require('fs');
