@@ -10,7 +10,7 @@ const {
 } = require('../controllers/user.controller.js');
 
 const { importUser, exportUser } = require('../controllers/import_export_user.controller.js');
-const { uploadPhoto } = require('../controllers/photo_user.controller.js');
+const { uploadPhoto, deletePhoto } = require('../controllers/photo_user.controller.js');
 
 const router = express.Router();
 
@@ -27,5 +27,6 @@ router.get('/export', exportUser);
 
 //photo
 router.patch('/photo/:id', uploadPhoto);
+router.delete('/photo/:id', deletePhoto);
 
 module.exports = router;

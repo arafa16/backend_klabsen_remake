@@ -115,6 +115,64 @@ const uploadPhoto = async(req, res) => {
     });
 }
 
+const deletePhoto = async(req, res) => {
+
+    const findUser = await userModel.findOne({
+        where:{
+            uuid:req.params.id
+        }
+    });
+
+    if(!findUser) {
+        return res.status(404).json({
+            status:404,
+            success:false,
+            data: {
+                data:null,
+                message: "user not found"
+            }
+        });
+    }
+
+    try {
+        //delete foto
+        if(findUser.image !== null){
+            const filePath = `./public/assets/photos/${findUser.image}`;
+            
+            const fileExist = fs.existsSync(filePath)
+
+            if(fileExist){
+                fs.unlinkSync(filePath);
+            }
+        }
+
+        await findUser.update({
+            image:null,
+            url_image:null
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            data: {
+                data:null,
+                message: "success"
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            data: {
+                message: error.message
+            }
+        });
+    }
+
+
+}
+
 module.exports = {
-    uploadPhoto
+    uploadPhoto,
+    deletePhoto
 }
