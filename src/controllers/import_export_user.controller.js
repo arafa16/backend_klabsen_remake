@@ -17,6 +17,7 @@ const argon = require('argon2');
 const path = require('path');
 const fs = require('fs');
 const xlsx = require('xlsx');
+const excelJs = require('exceljs');
 const db = require('../models/index.js');
 
 const findGander = async(data)=> {
@@ -387,6 +388,224 @@ const importUser = async(req, res)=>{
     });
 }
 
+const exportUser = async(req, res) => {
+    const {status} = req.query;
+
+    let dataResult = null;
+
+    try {
+
+        if(status){
+            const statusResult = await findStatus({name:status});
+
+            if(statusResult !== null){
+                const result = await userModel.findAll({
+                    where:{
+                        status_id:statusResult.id
+                    },
+                    include:[
+                        {
+                            model:ganderModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:pendidikanModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:penempatanModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:jabatanModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:statusPerkawinanModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:contactEmergencyModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:bankModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:golonganDarahModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:jamOperasionalGroupModel,
+                            attributes:['uuid','name','keterangan','code','is_active']
+                        },
+                        {
+                            model:groupModel,
+                            attributes:['uuid','name']
+                        },
+                        {
+                            model:statusModel,
+                            attributes:['id','uuid','name']
+                        },
+                        {
+                            model:userModel,
+                            as: 'atasan'
+                        },
+                        {
+                            model:privilegeModel
+                        }
+                    ]
+                })
+    
+                dataResult = result;
+            }
+            else{
+                return res.status(404).json({
+                    status:404,
+                    success: false,
+                    data:{
+                        message:"status not found",
+                        data:null,
+                    }
+                });
+            }
+        }
+        else{
+            const result = await userModel.findAll();
+
+            dataResult = result;
+        }
+
+        if(dataResult !== null){
+            let workbook = new excelJs.Workbook();
+            const sheet = workbook.addWorksheet("data user");
+
+            sheet.columns= [
+                {header : "No", key:"no", width: 25},
+                {header : "uuid", key:"uuid", width: 25},
+                {header : "absen_id", key:"absen_id", width: 25},
+                {header : "nik", key:"nik", width: 25},
+                {header : "name", key:"name", width: 25},
+                {header : "email", key:"email", width: 25},
+                {header : "password", key:"password", width: 25},
+                {header : "gander", key:"gander", width: 25},
+                {header : "extention", key:"extention", width: 25},
+                {header : "nomor_hp", key:"nomor_hp", width: 25},
+                {header : "penempatan", key:"penempatan", width: 25},
+                {header : "jabatan", key:"jabatan", width: 25},
+                {header : "atasan", key:"atasan", width: 25},
+                {header : "nomor_ktp", key:"nomor_ktp", width: 25},
+                {header : "alamat_ktp", key:"alamat_ktp", width: 25},
+                {header : "alamat_domisili", key:"alamat_domisili", width: 25},
+                {header : "tempat_lahir", key:"tempat_lahir", width: 25},
+                {header : "tanggal_lahir", key:"tanggal_lahir", width: 25},
+                {header : "nomor_npwp", key:"nomor_npwp", width: 25},
+                {header : "status_perkawinan", key:"status_perkawinan", width: 25},
+                {header : "jumlah_anak", key:"jumlah_anak", width: 25},
+                {header : "nama_ibu", key:"nama_ibu", width: 25},
+                {header : "pendidikan", key:"pendidikan", width: 25},
+                {header : "nama_sekolah", key:"nama_sekolah", width: 25},
+                {header : "jurusan_sekolah", key:"jurusan_sekolah", width: 25},
+                {header : "tahun_lulus", key:"tahun_lulus", width: 25},
+                {header : "ipk", key:"ipk", width: 25},
+                {header : "nomor_bpjs_kesehatan", key:"nomor_bpjs_kesehatan", width: 25},
+                {header : "nomor_bpjs_ketenagakerjaan", key:"nomor_bpjs_ketenagakerjaan", width: 25},
+                {header : "contact_emergency", key:"contact_emergency", width: 25},
+                {header : "emergency_number", key:"emergency_number", width: 25},
+                {header : "emergency_address", key:"emergency_address", width: 25},
+                {header : "nomor_sim", key:"nomor_sim", width: 25},
+                {header : "golongan_darah", key:"golongan_darah", width: 25},
+                {header : "bank", key:"bank", width: 25},
+                {header : "nomor_rekening", key:"nomor_rekening", width: 25},
+                {header : "jam_operasional_group", key:"jam_operasional_group", width: 25},
+                {header : "group", key:"group", width: 25},
+                {header : "quote", key:"quote", width: 25},
+                {header : "status", key:"status", width: 25},
+                {header : "is_atasan", key:"is_atasan", width: 25},
+            ];
+
+            dataResult.map((data, index) => {
+                sheet.addRow({
+                    no:index+1,
+                    nik:data && data.nik,
+                    absen_id:data && data.absen && data.absen.name, 
+                    name:data && data.name, 
+                    gander_id:data && data.gander && data.gander.name, 
+                    email:data && data.email,
+                    extention:data && data.extention,
+                    nomor_hp:data && data.nomor_hp,
+                    penempatan_id:data && data.penempatan && data.penempatan.name,
+                    jabatan_id:data && data.jabatan && data.jabatan.name,
+                    atasan_id:data && data.atasan && data.atasan.name,
+                    nomor_ktp:data && data.nomor_ktp,
+                    alamat_ktp:data && data.alamat_ktp,
+                    alamat_domisili:data && data.alamat_domisili,
+                    tempat_lahir:data && data.tempat_lahir,
+                    tanggal_lahir:data && data.tanggal_lahir,
+                    nomor_npwp:data && data.nomor_npwp,
+                    status_perkawinan_id:data && data.status_perkawinan && data.status_perkawinan.name,
+                    jumlah_anak:data && data.jumlah_anak,
+                    nama_ibu:data && data.nama_ibu,
+                    pendidikan_id:data && data.pendidikan && data.pendidikan.name,
+                    nama_sekolah:data && data.nama_sekolah,
+                    jurusan_sekolah:data && data.jurusan_sekolah,
+                    tahun_lulus:data && data.tahun_lulus,
+                    ipk:data && data.ipk,
+                    nomor_bpjs_kesehatan:data && data.nomor_bpjs_kesehatan,
+                    nomor_bpjs_ketenagakerjaan:data && data.nomor_bpjs_ketenagakerjaan,
+                    contact_emergency_id:data && data.contact_emergency && data.contact_emergency.name,
+                    emergency_number:data && data.emergency_number,
+                    emergency_address:data && data.emergency_address,
+                    nomor_sim:data && data.nomor_sim,
+                    golongan_darah_id:data && data.golongan_darah && data.golongan_darah.name,
+                    bank_id:data && data.bank_id,
+                    nomor_rekening:data && data.nomor_rekening,
+                    jam_operasional_group_id:data && data.jam_operasional_group && data.jam_operasional_group.name,
+                    group_id:data && data.group && data.group.name,
+                    // password:data && data.password,
+                    quote:data && data.quote,
+                    status_id:data && data.status && data.status.name,
+                    is_atasan:data && data.is_atasan ? 'yes' : 'no'
+                })
+            })
+
+            res.setHeader(
+                "Content-Type",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
+    
+            res.setHeader(
+                "Content-Disposition",
+                "attachment;filename="+"data_user.xlsx"
+            );
+    
+            workbook.xlsx.write(res);
+        }
+    
+        // return res.status(200).json({
+        //     status:200,
+        //     success: true,
+        //     data:{
+        //         message:"success",
+        //         data:dataResult,
+        //     }
+        // });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success: false,
+            data:{
+                message:error.message
+            }
+        })
+    }
+
+    
+}
+
 module.exports = {
-    importUser
+    importUser,
+    exportUser
 }

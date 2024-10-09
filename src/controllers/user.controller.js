@@ -1,5 +1,5 @@
 const {
-    user : userModel, 
+    user:userModel, 
     status:statusModel, 
     penempatan:penempatanModel,
     gander:ganderModel,
@@ -8,16 +8,13 @@ const {
     status_perkawinan:statusPerkawinanModel,
     contact_emergency:contactEmergencyModel,
     bank:bankModel,
-    golongan_darah:golonganDarahModal,
-    jam_operasional_group:jamOperasionalGroupModal,
-    group:groupModal,
-    status:statusModal,
-    privilege:privilegeModal,
-} = require('../models');
+    golongan_darah:golonganDarahModel,
+    jam_operasional_group:jamOperasionalGroupModel,
+    group:groupModel,
+    privilege:privilegeModel,
+} = require('../models/index.js');
 const {Op} = require('sequelize');
 const argon = require('argon2');
-const path = require('path');
-const fs = require('fs');
 
 const getUserTable = async(req, res) => {
     const {search, sort} = req.query;
@@ -121,19 +118,19 @@ const getUserById = async(req, res) => {
                     attributes:['uuid','name']
                 },
                 {
-                    model:golonganDarahModal,
+                    model:golonganDarahModel,
                     attributes:['uuid','name']
                 },
                 {
-                    model:jamOperasionalGroupModal,
+                    model:jamOperasionalGroupModel,
                     attributes:['uuid','name','keterangan','code','is_active']
                 },
                 {
-                    model:groupModal,
+                    model:groupModel,
                     attributes:['uuid','name']
                 },
                 {
-                    model:statusModal,
+                    model:statusModel,
                     attributes:['id','uuid','name']
                 },
                 {
@@ -141,7 +138,7 @@ const getUserById = async(req, res) => {
                     as: 'atasan'
                 },
                 {
-                    model:privilegeModal
+                    model:privilegeModel
                 }
             ]
         });
@@ -498,8 +495,6 @@ const updatePassword = async(req, res) => {
 
     
 }
-
-
 
 module.exports = {
     getUserTable,

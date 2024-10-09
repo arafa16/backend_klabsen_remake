@@ -9,7 +9,7 @@ const {
     updatePassword,
 } = require('../controllers/user.controller.js');
 
-const { importUser } = require('../controllers/import_export_user.controller.js');
+const { importUser, exportUser } = require('../controllers/import_export_user.controller.js');
 
 const router = express.Router();
 
@@ -22,5 +22,6 @@ router.patch('/password/:id', verifyToken, updatePassword);
 
 //import
 router.post('/import', verifyToken, importUser);
+router.get('/export', exportUser);
 
 module.exports = router;
