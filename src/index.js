@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const session = require('express-session');
+const fileUpload = require('express-fileupload')
 const SequelizeStore = require('connect-session-sequelize');
 const db = require('./models/index.js');
 
@@ -36,6 +37,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(fileUpload());
 
 //router
 app.use('/auth', auth_router);

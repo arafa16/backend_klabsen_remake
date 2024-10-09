@@ -14,8 +14,10 @@ const {
     status:statusModal,
     privilege:privilegeModal,
 } = require('../models');
-const {Op, where} = require('sequelize');
+const {Op} = require('sequelize');
 const argon = require('argon2');
+const path = require('path');
+const fs = require('fs');
 
 const getUserTable = async(req, res) => {
     const {search, sort} = req.query;
@@ -198,7 +200,7 @@ const createUser = async(req, res) => {
             golongan_darah_id,
             bank_id,
             nomor_rekening,
-            jamOperasional_group_id,
+            jam_operasional_group_id,
             group_id,
             password,
             quote,
@@ -249,7 +251,7 @@ const createUser = async(req, res) => {
             golongan_darah_id,
             bank_id,
             nomor_rekening,
-            jamOperasional_group_id,
+            jam_operasional_group_id,
             group_id,
             quote,
             status_id,
@@ -427,10 +429,83 @@ const deleteUser = async(req, res) => {
     
 }
 
+const updatePassword = async(req, res) => {
+    const {id} = req.params;
+    const {password} = req.body;
+    const {confPassword} = req.body;
+
+    const user = await userModel.findOne({
+        where:{
+            uuid:id
+        }
+    })
+
+    if(!user){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            data: {
+                 message:"user not found"
+            }
+        });
+    }
+
+    if(!password || !confPassword){
+        return res.status(401).json({
+            status:401,
+            success:false,
+            data: {
+                message:"password can't null"
+            }
+        });
+    }
+
+    if(password !== confPassword){
+        return res.status(401).json({
+            status:401,
+            success:false,
+            data: {
+                message:"password and confirmation password dosn't match"
+            }
+        });
+    }
+
+    try {
+        const hasPassword = await argon.hash(password);
+
+        await user.update({
+            password:hasPassword
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            data: {
+                data:null,
+                message: "success"
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            data: {
+                message: error
+            }
+        });
+    }
+
+    
+}
+
+
+
 module.exports = {
     getUserTable,
     getUserById,
     createUser,
     deleteUser,
-    updateUser
+    updateUser,
+    updatePassword
 }
