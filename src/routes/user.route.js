@@ -23,10 +23,10 @@ router.patch('/password/:id', verifyToken, updatePassword);
 
 //import
 router.post('/import', verifyToken, importUser);
-router.get('/export', exportUser);
+router.get('/export', verifyToken, exportUser);
 
 //photo
-router.patch('/photo/:id', uploadPhoto);
-router.delete('/photo/:id', deletePhoto);
+router.patch('/photo/:id', verifyToken, uploadPhoto);
+router.delete('/photo/:id', verifyToken, deletePhoto);
 
 module.exports = router;

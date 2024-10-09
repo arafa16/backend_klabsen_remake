@@ -76,7 +76,7 @@ const getUserTable = async(req, res) => {
             status:500,
             success: false,
             data:{
-                message:error
+                message:error.message
             }
         })
     }
@@ -157,7 +157,7 @@ const getUserById = async(req, res) => {
             status:500,
             success:false,
             data: {
-                message: error
+                message: error.message
             }
         });
     }
@@ -270,7 +270,7 @@ const createUser = async(req, res) => {
             status:500,
             success:false,
             data: {
-                message: error
+                message: error.message
             }
         });
     }
@@ -381,7 +381,7 @@ const updateUser = async(req, res) => {
             status:500,
             success:false,
             data: {
-                message: error
+                message: error.message
             }
         });
     }
@@ -418,7 +418,7 @@ const deleteUser = async(req, res) => {
             status:500,
             success:false,
             data: {
-                message: error
+                message: error.message
             }
         });
     }
@@ -488,7 +488,7 @@ const updatePassword = async(req, res) => {
             status:500,
             success:false,
             data: {
-                message: error
+                message: error.message
             }
         });
     }
