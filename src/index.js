@@ -10,6 +10,7 @@ const auth_router = require('./routes/auth.route.js');
 const reset_password_router = require('./routes/reset_password.route.js');
 const user_router = require('./routes/user.route.js');
 const bank_router = require('./routes/bank.route.js');
+const contact_emergency = require('./routes/contact_emergency.route.js');
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/auth', auth_router);
 app.use('/reset', reset_password_router);
 app.use('/user', user_router);
 app.use('/bank', bank_router);
+app.use('/contact_emergency', contact_emergency);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');

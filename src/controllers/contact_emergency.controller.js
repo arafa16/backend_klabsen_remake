@@ -1,9 +1,9 @@
 const {
-    bank:bankModel,
+    contact_emergency:contactEmergencyModel,
 } = require('../models/index.js');
-const {Op, where} = require('sequelize');
+const {Op} = require('sequelize');
 
-const getBankTable = async(req, res) => {
+const getContactEmergencyTable = async(req, res) => {
     const {search, sort} = req.query;
 
     const queryObject = {};
@@ -27,7 +27,7 @@ const getBankTable = async(req, res) => {
     }
 
     try {
-        const result = await bankModel.findAndCountAll({
+        const result = await contactEmergencyModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -56,9 +56,9 @@ const getBankTable = async(req, res) => {
     }
 }
 
-const getBankById = async(req, res) => {
+const getContactEmergencyById = async(req, res) => {
     try {
-        const result = await bankModel.findOne({
+        const result = await contactEmergencyModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -84,11 +84,11 @@ const getBankById = async(req, res) => {
     }
 }
 
-const createBank = async(req, res) => {
+const createContactEmergencyById = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
-        await bankModel.create({
+        await contactEmergencyModel.create({
             name:name,
             code:code,
             is_active:is_active
@@ -112,12 +112,12 @@ const createBank = async(req, res) => {
             }
         });
     }
-} 
+}
 
-const updateBank = async(req, res) => {
+const updateContactEmergency = async(req, res) => {
     const {name, code, is_active} = req.body;
 
-    const findData = await bankModel.findOne({
+    const findData = await contactEmergencyModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -160,9 +160,9 @@ const updateBank = async(req, res) => {
     }
 }
 
-const deleteBank = async(req, res) => {
+const deleteContactEmergency = async(req, res) => {
 
-    const findData = await bankModel.findOne({
+    const findData = await contactEmergencyModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -202,9 +202,9 @@ const deleteBank = async(req, res) => {
 }
 
 module.exports = {
-    getBankTable,
-    getBankById,
-    createBank,
-    updateBank,
-    deleteBank
+    getContactEmergencyTable,
+    getContactEmergencyById,
+    createContactEmergencyById,
+    updateContactEmergency,
+    deleteContactEmergency
 }
