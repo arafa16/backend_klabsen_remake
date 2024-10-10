@@ -152,7 +152,7 @@ const findGroup = async(data)=> {
     return result
 }
 
-const importUser = async(req, res)=>{
+const importData = async(req, res)=>{
 
     if(!req.files) {
         return res.status(404).json({
@@ -388,7 +388,7 @@ const importUser = async(req, res)=>{
     });
 }
 
-const exportUser = async(req, res) => {
+const exportData = async(req, res) => {
     const {status} = req.query;
 
     let dataResult = null;
@@ -606,6 +606,6 @@ const exportUser = async(req, res) => {
 }
 
 module.exports = {
-    importUser,
-    exportUser
+    importData,
+    exportData
 }

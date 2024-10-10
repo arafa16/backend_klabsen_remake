@@ -16,7 +16,7 @@ const {
 const {Op} = require('sequelize');
 const argon = require('argon2');
 
-const getUserTable = async(req, res) => {
+const getDataTable = async(req, res) => {
     const {search, sort} = req.query;
 
     const queryObject = {};
@@ -82,7 +82,7 @@ const getUserTable = async(req, res) => {
     }
 }
 
-const getUserById = async(req, res) => {
+const getDataById = async(req, res) => {
     try {
         const result = await userModel.findOne({
             where:{
@@ -163,7 +163,7 @@ const getUserById = async(req, res) => {
     }
 }
 
-const createUser = async(req, res) => {
+const createData = async(req, res) => {
     const { nik,
             absen_id, 
             name, 
@@ -276,7 +276,7 @@ const createUser = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+const updateData = async(req, res) => {
     const { nik,
             absen_id, 
             name, 
@@ -387,7 +387,7 @@ const updateUser = async(req, res) => {
     }
 }
 
-const deleteUser = async(req, res) => {
+const deleteData = async(req, res) => {
     const {id} = req.params;
 
     const result = await userModel.findOne({
@@ -497,10 +497,10 @@ const updatePassword = async(req, res) => {
 }
 
 module.exports = {
-    getUserTable,
-    getUserById,
-    createUser,
-    deleteUser,
-    updateUser,
+    getDataTable,
+    getDataById,
+    createData,
+    updateData,
+    deleteData,
     updatePassword
 }

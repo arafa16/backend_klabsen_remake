@@ -1,19 +1,19 @@
 const express = require('express');
 const {verifyToken} = require('../middleware/auth.middleware.js');
 const { 
-    getContactEmergencyTable,
-    getContactEmergencyById,
-    createContactEmergencyById,
-    updateContactEmergency,
-    deleteContactEmergency
+    getDataTable,
+    getDataById,
+    createData,
+    updateData,
+    deleteData
 } = require('../controllers/contact_emergency.controller.js');
 
 const router = express.Router();
 
-router.get('/table', verifyToken, getContactEmergencyTable);
-router.get('/data/:id', verifyToken, getContactEmergencyById);
-router.post('/data', verifyToken, createContactEmergencyById);
-router.patch('/data/:id', verifyToken, updateContactEmergency);
-router.delete('/data/:id', verifyToken, deleteContactEmergency);
+router.get('/table', verifyToken, getDataTable);
+router.get('/data/:id', verifyToken, getDataById);
+router.post('/data', verifyToken, createData);
+router.patch('/data/:id', verifyToken, updateData);
+router.delete('/data/:id', verifyToken, deleteData);
 
 module.exports = router;

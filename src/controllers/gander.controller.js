@@ -3,7 +3,7 @@ const {
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
-const getGanderTable = async(req, res) => {
+const getDataTable = async(req, res) => {
     const {search, sort} = req.query;
 
     const queryObject = {};
@@ -56,7 +56,7 @@ const getGanderTable = async(req, res) => {
     }
 }
 
-const getGanderById = async(req, res) => {
+const getDataById = async(req, res) => {
     try {
         const result = await ganderModel.findOne({
             where:{
@@ -84,7 +84,7 @@ const getGanderById = async(req, res) => {
     }
 }
 
-const createGanderById = async(req, res) => {
+const createData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
@@ -114,7 +114,7 @@ const createGanderById = async(req, res) => {
     }
 }
 
-const updateGander = async(req, res) => {
+const updateData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     const findData = await ganderModel.findOne({
@@ -160,7 +160,7 @@ const updateGander = async(req, res) => {
     }
 }
 
-const deleteGander = async(req, res) => {
+const deleteData = async(req, res) => {
 
     const findData = await ganderModel.findOne({
         where:{
@@ -202,9 +202,9 @@ const deleteGander = async(req, res) => {
 }
 
 module.exports = {
-    getGanderTable,
-    getGanderById,
-    createGanderById,
-    updateGander,
-    deleteGander
+    getDataTable,
+    getDataById,
+    createData,
+    updateData,
+    deleteData
 }

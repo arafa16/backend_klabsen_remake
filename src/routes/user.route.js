@@ -1,29 +1,32 @@
 const express = require('express');
 const {verifyToken} = require('../middleware/auth.middleware.js');
 const { 
-    getUserTable, 
-    getUserById, 
-    createUser, 
-    deleteUser, 
-    updateUser, 
+    getDataTable,
+    getDataById,
+    createData,
+    updateData,
+    deleteData, 
     updatePassword,
 } = require('../controllers/user.controller.js');
 
-const { importUser, exportUser } = require('../controllers/import_export_user.controller.js');
+const { 
+    importData,
+    exportData 
+} = require('../controllers/import_export_user.controller.js');
 const { uploadPhoto, deletePhoto } = require('../controllers/photo_user.controller.js');
 
 const router = express.Router();
 
-router.get('/table', verifyToken, getUserTable);
-router.get('/data/:id', verifyToken, getUserById);
-router.post('/data', verifyToken, createUser);
-router.patch('/data/:id', verifyToken, updateUser);
-router.delete('/data/:id', verifyToken, deleteUser);
+router.get('/table', verifyToken, getDataTable);
+router.get('/data/:id', verifyToken, getDataById);
+router.post('/data', verifyToken, createData);
+router.patch('/data/:id', verifyToken, updateData);
+router.delete('/data/:id', verifyToken, deleteData);
 router.patch('/password/:id', verifyToken, updatePassword);
 
-//import
-router.post('/import', verifyToken, importUser);
-router.get('/export', verifyToken, exportUser);
+//import export user
+router.post('/import', verifyToken, importData);
+router.get('/export', verifyToken, exportData);
 
 //photo
 router.patch('/photo/:id', verifyToken, uploadPhoto);

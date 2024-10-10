@@ -3,7 +3,7 @@ const {
 } = require('../models/index.js');
 const {Op, where} = require('sequelize');
 
-const getBankTable = async(req, res) => {
+const getDataTable = async(req, res) => {
     const {search, sort} = req.query;
 
     const queryObject = {};
@@ -56,7 +56,7 @@ const getBankTable = async(req, res) => {
     }
 }
 
-const getBankById = async(req, res) => {
+const getDataById = async(req, res) => {
     try {
         const result = await bankModel.findOne({
             where:{
@@ -84,7 +84,7 @@ const getBankById = async(req, res) => {
     }
 }
 
-const createBank = async(req, res) => {
+const createData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
@@ -114,7 +114,7 @@ const createBank = async(req, res) => {
     }
 } 
 
-const updateBank = async(req, res) => {
+const updateData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     const findData = await bankModel.findOne({
@@ -160,7 +160,7 @@ const updateBank = async(req, res) => {
     }
 }
 
-const deleteBank = async(req, res) => {
+const deleteData = async(req, res) => {
 
     const findData = await bankModel.findOne({
         where:{
@@ -202,9 +202,9 @@ const deleteBank = async(req, res) => {
 }
 
 module.exports = {
-    getBankTable,
-    getBankById,
-    createBank,
-    updateBank,
-    deleteBank
+    getDataTable,
+    getDataById,
+    createData,
+    updateData,
+    deleteData
 }

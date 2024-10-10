@@ -6,7 +6,7 @@ const {
     createData,
     updateData,
     deleteData
-} = require('../controllers/bank.controller.js');
+} = require('../controllers/golongan_darah.controller.js');
 
 const router = express.Router();
 
