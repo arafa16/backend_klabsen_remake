@@ -18,6 +18,14 @@ const jabatan = require('./routes/jabatan.route.js');
 const pelanggaran = require('./routes/pelanggaran.route.js');
 const pendidikan = require('./routes/pendidikan.route.js');
 const penempatan = require('./routes/penempatan.route.js');
+const status = require('./routes/status.route.js');
+const status_inout = require('./routes/status_inout.route.js');
+const status_koreksi = require('./routes/status_koreksi.route.js');
+const status_perkawinan = require('./routes/status_perkawinan.route.js');
+const tipe_absen = require('./routes/tipe_absen.route.js');
+const tipe_event = require('./routes/tipe_event.route.js');
+const tipe_notification = require('./routes/tipe_notification.route.js');
+const tipe_pendapatan = require('./routes/tipe_pendapatan.route.js');
 
 dotenv.config();
 
@@ -61,6 +69,14 @@ app.use('/jabatan', jabatan);
 app.use('/pelanggaran', pelanggaran);
 app.use('/pendidikan', pendidikan);
 app.use('/penempatan', penempatan);
+app.use('/status', status);
+app.use('/status_inout', status_inout);
+app.use('/status_koreksi', status_koreksi);
+app.use('/status_perkawinan', status_perkawinan);
+app.use('/tipe_Absen', tipe_absen);
+app.use('/tipe_event', tipe_event);
+app.use('/tipe_notification', tipe_notification);
+app.use('/tipe_pendapatan', tipe_pendapatan);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
