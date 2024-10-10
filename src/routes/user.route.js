@@ -14,6 +14,9 @@ const {
     exportData 
 } = require('../controllers/import_export_user.controller.js');
 const { uploadPhoto, deletePhoto } = require('../controllers/photo_user.controller.js');
+const { 
+    getDatas:getDataAtasan
+} = require('../controllers/atasan.controller.js');
 
 const router = express.Router();
 
@@ -31,5 +34,9 @@ router.get('/export', verifyToken, exportData);
 //photo
 router.patch('/photo/:id', verifyToken, uploadPhoto);
 router.delete('/photo/:id', verifyToken, deletePhoto);
+
+//atasan
+router.get('/atasan', verifyToken, getDataAtasan);
+
 
 module.exports = router;
