@@ -1,5 +1,5 @@
 const {
-    contact_emergency:contactEmergencyModel,
+    jabatan:jabatanModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +15,7 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await contactEmergencyModel.findAll({
+        const result = await jabatanModel.findAll({
             order:[sortList]
         });
 
@@ -39,7 +39,7 @@ const getDatas = async(req, res) => {
 }
 
 const getDataTable = async(req, res) => {
-    const {search, sort} = req.query;
+        
 
     const queryObject = {};
     const querySearchObject = {};
@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await contactEmergencyModel.findAndCountAll({
+        const result = await jabatanModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await contactEmergencyModel.findOne({
+        const result = await jabatanModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -123,7 +123,7 @@ const createData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
-        await contactEmergencyModel.create({
+        await jabatanModel.create({
             name:name,
             code:code,
             is_active:is_active
@@ -152,7 +152,7 @@ const createData = async(req, res) => {
 const updateData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
-    const findData = await contactEmergencyModel.findOne({
+    const findData = await jabatanModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -197,7 +197,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await contactEmergencyModel.findOne({
+    const findData = await jabatanModel.findOne({
         where:{
             uuid:req.params.id
         }

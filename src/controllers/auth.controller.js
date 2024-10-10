@@ -10,7 +10,7 @@ const login = async(req, res) => {
         return res.status(404).json({
             status:404,
             success: false,
-            data:{
+            datas:{
                 message:"email or password can't be null"
             }
         });
@@ -32,7 +32,7 @@ const login = async(req, res) => {
         return res.status(404).json({
             status:404,
             success: false,
-            data:{
+            datas:{
                 message:"user not found"
             }
         })
@@ -42,7 +42,7 @@ const login = async(req, res) => {
         return res.status(401).json({
             status:401,
             success: false,
-            data:{
+            datas:{
                 message: `you don't have access, user is ${findUser.status.name}`
             }
         })
@@ -54,7 +54,7 @@ const login = async(req, res) => {
         return res.status(403).json({
             status:403,
             success: false,
-            data:{
+            datas:{
                 message:"wrong password"
             }
         });
@@ -78,7 +78,7 @@ const login = async(req, res) => {
         return res.status(200).json({
             status:200,
             success: true,
-            data:{
+            datas:{
                 message: "login success",
             }
         });
@@ -86,7 +86,7 @@ const login = async(req, res) => {
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error
             }
         })
@@ -100,7 +100,7 @@ const registration = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 message: "value cannot be null"
             }
         });
@@ -116,7 +116,7 @@ const registration = async(req, res) => {
         return res.status(403).json({
             status:403,
             success:false,
-            data: {
+            datas: {
                  message:"user registered"
             }
         });
@@ -147,8 +147,8 @@ const registration = async(req, res) => {
         return res.status(201).json({
             status:200,
             success:true,
-            data: {
-                response,
+            datas: {
+                data:response,
                 message: "success"
             }
         });
@@ -156,7 +156,7 @@ const registration = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error
             }
         });
@@ -185,7 +185,7 @@ const getMe = async(req, res) => {
         return res.status(201).json({
             status:200,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -195,7 +195,7 @@ const getMe = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error
             }
         });
@@ -211,7 +211,7 @@ const logout = async(req, res) => {
             return res.status(200).json({
                 status:200,
                 success:true,
-                data: {
+                datas: {
                     message: "logout success"
                 }
             });
@@ -221,7 +221,7 @@ const logout = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error
             }
         });

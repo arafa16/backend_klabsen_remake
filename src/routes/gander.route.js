@@ -1,6 +1,7 @@
 const express = require('express');
 const {verifyToken} = require('../middleware/auth.middleware.js');
 const { 
+    getDatas,
     getDataTable,
     getDataById,
     createData,
@@ -10,6 +11,7 @@ const {
 
 const router = express.Router();
 
+router.get('/datas', verifyToken, getDatas);
 router.get('/table', verifyToken, getDataTable);
 router.get('/data/:id', verifyToken, getDataById);
 router.post('/data', verifyToken, createData);

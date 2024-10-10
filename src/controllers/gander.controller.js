@@ -3,6 +3,41 @@ const {
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
+const getDatas = async(req, res) => {
+    const {sort} = req.query;
+
+    let sortList = {};
+
+    if(sort){
+        sortList = sort;
+    }else{
+        sortList ='name';
+    }
+
+    try {
+        const result = await ganderModel.findAll({
+            order:[sortList]
+        });
+
+        return res.status(200).json({
+            status:200,
+            success:true,
+            datas: {
+                data:result,
+                message: "success"
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
 const getDataTable = async(req, res) => {
     const {search, sort} = req.query;
 
@@ -40,7 +75,7 @@ const getDataTable = async(req, res) => {
         return res.status(200).json({
             status:200,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -49,7 +84,7 @@ const getDataTable = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -67,7 +102,7 @@ const getDataById = async(req, res) => {
         return res.status(200).json({
             status:200,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -77,7 +112,7 @@ const getDataById = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -97,7 +132,7 @@ const createData = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:null,
                 message: "success"
             }
@@ -107,7 +142,7 @@ const createData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -127,7 +162,7 @@ const updateData = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 message: "bank is't found"
             }
         });
@@ -143,7 +178,7 @@ const updateData = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:null,
                 message: "success"
             }
@@ -153,7 +188,7 @@ const updateData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -172,7 +207,7 @@ const deleteData = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 message: "bank is't found"
             }
         });
@@ -184,7 +219,7 @@ const deleteData = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:null,
                 message: "success"
             }
@@ -194,7 +229,7 @@ const deleteData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -202,6 +237,7 @@ const deleteData = async(req, res) => {
 }
 
 module.exports = {
+    getDatas,
     getDataTable,
     getDataById,
     createData,

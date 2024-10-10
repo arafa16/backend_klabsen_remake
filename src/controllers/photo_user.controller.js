@@ -17,7 +17,7 @@ const uploadPhoto = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data:null,
                 message: "user not found"
             }
@@ -28,7 +28,7 @@ const uploadPhoto = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "No file Upload"
             }
@@ -41,7 +41,7 @@ const uploadPhoto = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "No file Upload"
             }
@@ -60,7 +60,7 @@ const uploadPhoto = async(req, res) => {
         return res.status(401).json({
             status:401,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "type file not allowed"
             }
@@ -83,7 +83,7 @@ const uploadPhoto = async(req, res) => {
             return res.status(500).json({
                 status:500,
                 success:false,
-                data: {
+                datas: {
                     message: err.message
                 }
             });
@@ -98,7 +98,7 @@ const uploadPhoto = async(req, res) => {
             return res.status(201).json({
                 status:201,
                 success:true,
-                data: {
+                datas: {
                     data:null,
                     message: "success"
                 }
@@ -107,7 +107,7 @@ const uploadPhoto = async(req, res) => {
             return res.status(500).json({
                 status:500,
                 success:false,
-                data: {
+                datas: {
                     message: error.message
                 }
             });
@@ -127,7 +127,7 @@ const deletePhoto = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data:null,
                 message: "user not found"
             }
@@ -154,7 +154,7 @@ const deletePhoto = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:null,
                 message: "success"
             }
@@ -163,7 +163,7 @@ const deletePhoto = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });

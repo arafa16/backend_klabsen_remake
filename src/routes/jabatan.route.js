@@ -7,7 +7,7 @@ const {
     createData,
     updateData,
     deleteData
-} = require('../controllers/golongan_darah.controller.js');
+} = require('../controllers/jabatan.controller.js');
 
 const router = express.Router();
 

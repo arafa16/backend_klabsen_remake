@@ -158,7 +158,7 @@ const importData = async(req, res)=>{
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "No file Upload"
             }
@@ -171,7 +171,7 @@ const importData = async(req, res)=>{
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "No file Upload"
             }
@@ -187,7 +187,7 @@ const importData = async(req, res)=>{
         return res.status(422).json({
             status:422,
             success:false,
-            data: {
+            datas: {
                 data: null,
                 message: "Type file is not allowed"
             }
@@ -366,7 +366,7 @@ const importData = async(req, res)=>{
             return res.status(200).json({
                 status:200,
                 success:true,
-                data: {
+                datas: {
                     data:null,
                     message: "success"
                 }
@@ -379,7 +379,7 @@ const importData = async(req, res)=>{
             return res.status(500).json({
                 status:500,
                 success:false,
-                data: {
+                datas: {
                     message: error.message
                 }
             });
@@ -464,7 +464,7 @@ const exportData = async(req, res) => {
                 return res.status(404).json({
                     status:404,
                     success: false,
-                    data:{
+                    datas:{
                         message:"status not found",
                         data:null,
                     }
@@ -596,7 +596,7 @@ const exportData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error.message
             }
         })

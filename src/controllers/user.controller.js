@@ -65,7 +65,7 @@ const getDataTable = async(req, res) => {
         return res.status(200).json({
             status:200,
             success: true,
-            data:{
+            datas:{
                 message:"success",
                 data:result,
             }
@@ -75,7 +75,7 @@ const getDataTable = async(req, res) => {
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error.message
             }
         })
@@ -146,7 +146,7 @@ const getDataById = async(req, res) => {
         return res.status(200).json({
             status:200,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -156,7 +156,7 @@ const getDataById = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -207,7 +207,14 @@ const createData = async(req, res) => {
         } = req.body;
 
     if(password === null || password === ''){
-        return res.status(404).json({msg: "password can't be null"})
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                data:null,
+                message: "password can't be null"
+            }
+        });
     }
     
     const hasPassword = await argon.hash(password);
@@ -259,7 +266,7 @@ const createData = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -269,7 +276,7 @@ const createData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -370,7 +377,7 @@ const updateData = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:result,
                 message: "success"
             }
@@ -380,7 +387,7 @@ const updateData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -408,7 +415,7 @@ const deleteData = async(req, res) => {
         return res.status(200).json({
             status:200,
             success:true,
-            data: {
+            datas: {
                 message: "success"
             }
         });
@@ -417,7 +424,7 @@ const deleteData = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });
@@ -441,7 +448,7 @@ const updatePassword = async(req, res) => {
         return res.status(404).json({
             status:404,
             success:false,
-            data: {
+            datas: {
                  message:"user not found"
             }
         });
@@ -451,7 +458,7 @@ const updatePassword = async(req, res) => {
         return res.status(401).json({
             status:401,
             success:false,
-            data: {
+            datas: {
                 message:"password can't null"
             }
         });
@@ -461,7 +468,7 @@ const updatePassword = async(req, res) => {
         return res.status(401).json({
             status:401,
             success:false,
-            data: {
+            datas: {
                 message:"password and confirmation password dosn't match"
             }
         });
@@ -477,7 +484,7 @@ const updatePassword = async(req, res) => {
         return res.status(201).json({
             status:201,
             success:true,
-            data: {
+            datas: {
                 data:null,
                 message: "success"
             }
@@ -487,7 +494,7 @@ const updatePassword = async(req, res) => {
         return res.status(500).json({
             status:500,
             success:false,
-            data: {
+            datas: {
                 message: error.message
             }
         });

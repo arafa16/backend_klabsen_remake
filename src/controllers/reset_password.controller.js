@@ -16,7 +16,7 @@ const sendEmailReset = async(req, res)=>{
         return res.status(404).json({
             status:404,
             success: false,
-            data:{
+            datas:{
                message: "user not found"
             }
         });
@@ -53,7 +53,7 @@ const sendEmailReset = async(req, res)=>{
         return res.status(200).json({
             status:200,
             success: true,
-            data:{
+            datas:{
                 message: "success, check your email for reset password"
             }
         });
@@ -61,7 +61,7 @@ const sendEmailReset = async(req, res)=>{
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error
             }
         })
@@ -91,7 +91,7 @@ const getTokenReset = async(req, res) => {
         return res.status(200).json({
             status:200,
             success: true,
-            data:{
+            datas:{
                 message:"success",
                 data:user
             }
@@ -101,7 +101,7 @@ const getTokenReset = async(req, res) => {
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error
             }
         })
@@ -143,7 +143,7 @@ const resetPassword = async(req, res) => {
         return res.status(201).json({
             status:201,
             success: true,
-            data:{
+            datas:{
                 message:"reset password success"
             }
         });
@@ -151,7 +151,7 @@ const resetPassword = async(req, res) => {
         return res.status(500).json({
             status:500,
             success: false,
-            data:{
+            datas:{
                 message:error
             }
         })

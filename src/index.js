@@ -13,6 +13,9 @@ const bank_router = require('./routes/bank.route.js');
 const contact_emergency = require('./routes/contact_emergency.route.js');
 const gander = require('./routes/gander.route.js');
 const group = require('./routes/group.route.js');
+const golongan_darah = require('./routes/golongan_darah.route.js');
+const jabatan = require('./routes/jabatan.route.js');
+const pelanggaran = require('./routes/pelanggaran.route.js');
 
 dotenv.config();
 
@@ -51,6 +54,9 @@ app.use('/bank', bank_router);
 app.use('/contact_emergency', contact_emergency);
 app.use('/gander', gander);
 app.use('/group', group);
+app.use('/golongan_darah', golongan_darah);
+app.use('/jabatan', jabatan);
+app.use('/pelanggaran', pelanggaran);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
