@@ -32,11 +32,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
-      tipe_absen_id: {
+      tipe_event_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "tipe_absens",
+          model: "tipe_events",
           key: "id",
         },
       },

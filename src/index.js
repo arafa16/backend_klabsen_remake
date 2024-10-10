@@ -26,6 +26,7 @@ const tipe_absen = require('./routes/tipe_absen.route.js');
 const tipe_event = require('./routes/tipe_event.route.js');
 const tipe_notification = require('./routes/tipe_notification.route.js');
 const tipe_pendapatan = require('./routes/tipe_pendapatan.route.js');
+const event = require('./routes/event.route.js');
 
 dotenv.config();
 
@@ -77,6 +78,7 @@ app.use('/tipe_Absen', tipe_absen);
 app.use('/tipe_event', tipe_event);
 app.use('/tipe_notification', tipe_notification);
 app.use('/tipe_pendapatan', tipe_pendapatan);
+app.use('/event', event);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');

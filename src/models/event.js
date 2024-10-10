@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      event.belongsTo(models.tipe_event,{
+        foreignKey:"tipe_event_id"
+      });
     }
   }
   event.init({
@@ -23,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     tahun: DataTypes.DECIMAL,
     tanggal_mulai: DataTypes.DATE,
     tanggal_selesai: DataTypes.DATE,
-    tipe_absen_id: DataTypes.INTEGER,
+    tipe_event_id: DataTypes.INTEGER,
     code: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN
   }, {

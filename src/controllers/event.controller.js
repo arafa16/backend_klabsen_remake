@@ -1,5 +1,6 @@
 const {
-    bank:bankModel,
+    event:eventModel,
+    tipe_event:tipeEventModel
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +16,10 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await bankModel.findAll({
+        const result = await eventModel.findAll({
+            include:[
+                {model:tipeEventModel}
+            ],
             order:[sortList]
         });
 
@@ -39,11 +43,15 @@ const getDatas = async(req, res) => {
 }
 
 const getDataTable = async(req, res) => {
-    const {search, sort} = req.query;
+    const {search, bulan, tahun, sort} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
     let sortList = {};
+
+    if(bulan){
+        queryObject.bulan = bulan
+    }
 
     if(search){
         querySearchObject.name = {[Op.like]:`%${search}%`}
@@ -62,10 +70,13 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await bankModel.findAndCountAll({
+        const result = await eventModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
+            ],
+            include:[
+                {model:tipeEventModel}
             ],
             limit,
             offset,
@@ -91,12 +102,59 @@ const getDataTable = async(req, res) => {
     }
 }
 
+const createData = async(req, res) => {
+    const {
+        name,
+        bulan, 
+        tahun,
+        tanggal_mulai,
+        tanggal_selesai,
+        tipe_event_id,
+        code,
+        is_active
+    } = req.body;
+
+    try {
+        await eventModel.create({
+            name,  
+            bulan, 
+            tahun, 
+            tanggal_mulai, 
+            tanggal_selesai, 
+            tipe_event_id, 
+            code,
+            is_active
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            datas: {
+                data:null,
+                message: "success"
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
 const getDataById = async(req, res) => {
     try {
-        const result = await bankModel.findOne({
+        const result = await eventModel.findOne({
             where:{
                 uuid:req.params.id
-            }
+            },
+            include:[
+                {model:tipeEventModel}
+            ],
         });
 
         return res.status(200).json({
@@ -119,40 +177,19 @@ const getDataById = async(req, res) => {
     }
 }
 
-const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
-
-    try {
-        await bankModel.create({
-            name:name,
-            code:code,
-            is_active:is_active
-        });
-
-        return res.status(201).json({
-            status:201,
-            success:true,
-            datas: {
-                data:null,
-                message: "success"
-            }
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            status:500,
-            success:false,
-            datas: {
-                message: error.message
-            }
-        });
-    }
-} 
-
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {
+        name,
+        bulan, 
+        tahun,
+        tanggal_mulai,
+        tanggal_selesai,
+        tipe_event_id,
+        code,
+        is_active
+    } = req.body;
 
-    const findData = await bankModel.findOne({
+    const findData = await eventModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -170,9 +207,14 @@ const updateData = async(req, res) => {
 
     try {
         await findData.update({
-            name:name,
-            code:code,
-            is_active:is_active
+            name,
+            bulan, 
+            tahun,
+            tanggal_mulai,
+            tanggal_selesai,
+            tipe_event_id,
+            code,
+            is_active
         });
 
         return res.status(201).json({
@@ -197,7 +239,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await bankModel.findOne({
+    const findData = await eventModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -236,11 +278,12 @@ const deleteData = async(req, res) => {
     }
 }
 
+
 module.exports = {
     getDatas,
     getDataTable,
-    getDataById,
     createData,
+    getDataById,
     updateData,
     deleteData
 }
