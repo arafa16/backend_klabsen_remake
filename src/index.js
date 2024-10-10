@@ -12,6 +12,7 @@ const user_router = require('./routes/user.route.js');
 const bank_router = require('./routes/bank.route.js');
 const contact_emergency = require('./routes/contact_emergency.route.js');
 const gander = require('./routes/gander.route.js');
+const group = require('./routes/group.route.js');
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use('/user', user_router);
 app.use('/bank', bank_router);
 app.use('/contact_emergency', contact_emergency);
 app.use('/gander', gander);
+app.use('/group', group);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
