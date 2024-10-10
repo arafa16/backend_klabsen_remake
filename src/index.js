@@ -17,6 +17,7 @@ const golongan_darah = require('./routes/golongan_darah.route.js');
 const jabatan = require('./routes/jabatan.route.js');
 const pelanggaran = require('./routes/pelanggaran.route.js');
 const pendidikan = require('./routes/pendidikan.route.js');
+const penempatan = require('./routes/penempatan.route.js');
 
 dotenv.config();
 
@@ -59,6 +60,7 @@ app.use('/golongan_darah', golongan_darah);
 app.use('/jabatan', jabatan);
 app.use('/pelanggaran', pelanggaran);
 app.use('/pendidikan', pendidikan);
+app.use('/penempatan', penempatan);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
