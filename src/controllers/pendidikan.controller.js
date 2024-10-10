@@ -1,5 +1,5 @@
 const {
-    pelanggaran:pelanggaranModel,
+    pendidikan:pendidikanModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +15,7 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await pelanggaranModel.findAll({
+        const result = await pendidikanModel.findAll({
             order:[sortList]
         });
 
@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await pelanggaranModel.findAndCountAll({
+        const result = await pendidikanModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await pelanggaranModel.findOne({
+        const result = await pendidikanModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -123,7 +123,7 @@ const createData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
-        await pelanggaranModel.create({
+        await pendidikanModel.create({
             name:name,
             code:code,
             is_active:is_active
@@ -152,7 +152,7 @@ const createData = async(req, res) => {
 const updateData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
-    const findData = await pelanggaranModel.findOne({
+    const findData = await pendidikanModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -163,7 +163,7 @@ const updateData = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                message: "data is't found"
+                message: "data isn't found"
             }
         });
     }
@@ -197,7 +197,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await pelanggaranModel.findOne({
+    const findData = await pendidikanModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -208,7 +208,7 @@ const deleteData = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                message: "data isn't found"
+                message: "bank is't found"
             }
         });
     }

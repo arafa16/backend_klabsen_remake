@@ -405,7 +405,7 @@ const deleteData = async(req, res) => {
 
     if(!result){
         return res.status(404).json({
-            message:"user not found"
+            message:"data not found"
         })
     }
 
@@ -449,7 +449,7 @@ const updatePassword = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                 message:"user not found"
+                 message:"data not found"
             }
         });
     }

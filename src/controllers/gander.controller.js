@@ -163,7 +163,7 @@ const updateData = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                message: "bank is't found"
+                message: "data isn't found"
             }
         });
     }
@@ -208,7 +208,7 @@ const deleteData = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                message: "bank is't found"
+                message: "data isn't found"
             }
         });
     }
