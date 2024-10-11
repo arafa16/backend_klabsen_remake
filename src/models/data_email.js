@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class email extends Model {
+  class data_email extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,25 +11,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      data_email.belongsTo(models.status_email,{
+        foreignKey:"status_email_id"
+      });
     }
   }
-  email.init({
+  data_email.init({
     uuid: {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4
     },
     name: DataTypes.STRING,
-    host: DataTypes.STRING,
-    port: DataTypes.STRING,
-    secure: DataTypes.BOOLEAN,
-    user: DataTypes.STRING,
-    password: DataTypes.STRING,
+    from: DataTypes.STRING,
+    to: DataTypes.STRING,
+    subject: DataTypes.STRING,
+    text_email: DataTypes.STRING,
+    status_email_id: DataTypes.INTEGER,
     code: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'email',
+    modelName: 'data_email',
     underscored: true,
   });
-  return email;
+  return data_email;
 };

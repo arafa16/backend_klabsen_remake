@@ -27,6 +27,8 @@ const tipe_event = require('./routes/tipe_event.route.js');
 const tipe_notification = require('./routes/tipe_notification.route.js');
 const tipe_pendapatan = require('./routes/tipe_pendapatan.route.js');
 const event = require('./routes/event.route.js');
+const email = require('./routes/email.route.js');
+const data_email = require('./routes/data_email.route.js');
 
 dotenv.config();
 
@@ -79,6 +81,8 @@ app.use('/tipe_event', tipe_event);
 app.use('/tipe_notification', tipe_notification);
 app.use('/tipe_pendapatan', tipe_pendapatan);
 app.use('/event', event);
+app.use('/email', email);
+app.use('/data_email', data_email);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
