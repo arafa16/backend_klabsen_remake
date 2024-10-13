@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     wfh_modal: DataTypes.BOOLEAN,
     shift_modal: DataTypes.BOOLEAN,
     absen_check: DataTypes.BOOLEAN,
-    edit_user_sub: DataTypes.BOOLEAN,
     admin_event: DataTypes.BOOLEAN,
     perhitungan_absen: DataTypes.BOOLEAN,
     slip_gaji: DataTypes.BOOLEAN,

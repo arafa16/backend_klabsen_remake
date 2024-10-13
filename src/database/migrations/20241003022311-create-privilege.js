@@ -102,11 +102,6 @@ module.exports = {
         allowNull: true,
         defaultValue: false,
       },
-      edit_user_sub: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-        defaultValue: false,
-      },
       admin_event: {
         type: Sequelize.BOOLEAN,
         allowNull: true,

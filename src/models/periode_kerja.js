@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   periode_kerja.init({
-    uuid: DataTypes.STRING,
+    uuid: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: DataTypes.STRING,
     bulan: DataTypes.DECIMAL,
     tahun: DataTypes.DECIMAL,

@@ -29,6 +29,9 @@ const tipe_pendapatan = require('./routes/tipe_pendapatan.route.js');
 const event = require('./routes/event.route.js');
 const email = require('./routes/email.route.js');
 const data_email = require('./routes/data_email.route.js');
+const mesin_absen = require('./routes/mesin_absen.route.js');
+const periode_kerja = require('./routes/periode_kerja.route.js');
+const privilege = require('./routes/privilege.route.js');
 
 dotenv.config();
 
@@ -83,6 +86,9 @@ app.use('/tipe_pendapatan', tipe_pendapatan);
 app.use('/event', event);
 app.use('/email', email);
 app.use('/data_email', data_email);
+app.use('/mesin_absen', mesin_absen);
+app.use('/periode_kerja', periode_kerja);
+app.use('/privilege', privilege);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
