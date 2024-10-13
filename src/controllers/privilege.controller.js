@@ -292,7 +292,7 @@ const deleteData = async(req, res) => {
             status:404,
             success:false,
             datas: {
-                message: "bank isn't found"
+                message: "data isn't found"
             }
         });
     }

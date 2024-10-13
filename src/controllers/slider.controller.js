@@ -1,7 +1,11 @@
 const {
-    status_inout:statusInoutModel,
+    slider:sliderModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
+const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs');
+
 
 const getDatas = async(req, res) => {
     const {sort} = req.query;
@@ -11,11 +15,11 @@ const getDatas = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='name';
+        sortList ='sequence';
     }
 
     try {
-        const result = await statusInoutModel.findAll({
+        const result = await sliderModel.findAll({
             order:[sortList]
         });
 
@@ -58,11 +62,11 @@ const getDataTable = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='name';
+        sortList ='sequence';
     }
 
     try {
-        const result = await statusInoutModel.findAndCountAll({
+        const result = await sliderModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +97,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await statusInoutModel.findOne({
+        const result = await sliderModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -120,39 +124,107 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {
+        name,
+        sequence,
+        is_active,
+        is_delete
+    } = req.body;
 
-    try {
-        await statusInoutModel.create({
-            name:name,
-            code:code,
-            is_active:is_active
-        });
-
-        return res.status(201).json({
-            status:201,
-            success:true,
-            datas: {
-                data:null,
-                message: "success"
-            }
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            status:500,
+    if(!req.files) {
+        return res.status(404).json({
+            status:404,
             success:false,
             datas: {
-                message: error.message
+                data: null,
+                message: "No file Upload"
             }
         });
     }
+
+    const {file} = req.files;
+
+    if(!file) {
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                data: null,
+                message: "No file Upload"
+            }
+        });
+    }
+
+    // const fileSize = file.data.length;
+    const ext = path.extname(file.name);
+    const file_name = crypto.randomUUID()+ext;
+    const link = `/public/assets/slider/${file_name}`;
+    const allowed_type = ['.png','.jpg','.jpeg'];
+
+    //filter file type
+    if(!allowed_type.includes(ext.toLowerCase())){
+        return res.status(401).json({
+            status:401,
+            success:false,
+            datas: {
+                data: null,
+                message: "type file not allowed"
+            }
+        });
+    }
+
+    file.mv(`./public/assets/slider/${file_name}`, async(err)=>{
+        if(err){
+            return res.status(500).json({
+                status:500,
+                success:false,
+                datas: {
+                    message: err.message
+                }
+            });
+        }
+
+        try {
+            await sliderModel.create({
+                name,
+                file_name,
+                file_link:link,
+                sequence,
+                is_active,
+                is_delete
+            });
+
+            return res.status(201).json({
+                status:201,
+                success:true,
+                datas: {
+                    data:null,
+                    message: "success"
+                }
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status:500,
+                success:false,
+                datas: {
+                    message: error.message
+                }
+            });
+        }
+    });
 }
 
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {
+        name,
+        file_name,
+        file_link,
+        sequence,
+        is_active,
+        is_delete
+    } = req.body;
 
-    const findData = await statusInoutModel.findOne({
+    const findData = await sliderModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -170,9 +242,12 @@ const updateData = async(req, res) => {
 
     try {
         await findData.update({
-            name:name,
-            code:code,
-            is_active:is_active
+            name,
+            file_name,
+            file_link,
+            sequence,
+            is_active,
+            is_delete
         });
 
         return res.status(201).json({
@@ -197,7 +272,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await statusInoutModel.findOne({
+    const findData = await sliderModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -214,6 +289,17 @@ const deleteData = async(req, res) => {
     }
 
     try {
+        //delete foto
+        if(findData.file_name !== null){
+            const filePath = `./public/assets/slider/${findData.file_name}`;
+            
+            const fileExist = fs.existsSync(filePath)
+
+            if(fileExist){
+                fs.unlinkSync(filePath);
+            }
+        }
+
         await findData.destroy();
 
         return res.status(201).json({
