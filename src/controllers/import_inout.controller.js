@@ -7,6 +7,7 @@ const path = require('path');
 const date = require('date-and-time');
 const xlsx = require('xlsx');
 const crypto = require('crypto');
+const fs = require('fs');
 
 const importInOut = async(req, res) => {
     const uuid = req.params.id;
@@ -100,6 +101,12 @@ const importInOut = async(req, res) => {
                 });
 
                 dataSubmit.push(response);
+            }
+            
+            const fileExist = fs.existsSync(file_path)
+
+            if(fileExist){
+                fs.unlinkSync(file_path);
             }
 
             return res.status(201).json({
