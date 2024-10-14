@@ -36,6 +36,7 @@ const slider = require('./routes/slider.route.js');
 const status_email = require('./routes/status_email.route.js');
 const jam_operasional_group = require('./routes/jam_operasional_group.route.js');
 const jam_operasional = require('./routes/jam_operasional.route.js');
+const in_out = require('./routes/in_out.route.js');
 
 dotenv.config();
 
@@ -95,7 +96,9 @@ app.use('/periode_kerja', periode_kerja);
 app.use('/privilege', privilege);
 app.use('/slider', slider);
 app.use('/status_email', status_email);
+app.use('/jam_operasional_group', jam_operasional_group);
 app.use('/jam_operasional', jam_operasional);
+app.use('/in_out', in_out);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');
