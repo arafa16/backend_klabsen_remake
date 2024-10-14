@@ -1,5 +1,5 @@
 const {
-    jabatan:jabatanModel,
+    jam_operasional:jamOperasionalModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +15,7 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAll({
+        const result = await jamOperasionalModel.findAll({
             order:[sortList]
         });
 
@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAndCountAll({
+        const result = await jamOperasionalModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await jabatanModel.findOne({
+        const result = await jamOperasionalModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -120,13 +120,25 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {
+        jam_operasional_group_id,
+        name,
+        jam_masuk,
+        jam_pulang,
+        keterangan,
+        code,
+        is_active
+    } = req.body;
 
     try {
-        await jabatanModel.create({
-            name:name,
-            code:code,
-            is_active:is_active
+        await jamOperasionalModel.create({
+            jam_operasional_group_id,
+            name,
+            jam_masuk,
+            jam_pulang,
+            keterangan,
+            code,
+            is_active
         });
 
         return res.status(201).json({
@@ -150,9 +162,17 @@ const createData = async(req, res) => {
 }
 
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {
+        jam_operasional_group_id,
+        name,
+        jam_masuk,
+        jam_pulang,
+        keterangan,
+        code,
+        is_active
+    } = req.body;
 
-    const findData = await jabatanModel.findOne({
+    const findData = await jamOperasionalModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -170,9 +190,13 @@ const updateData = async(req, res) => {
 
     try {
         await findData.update({
-            name:name,
-            code:code,
-            is_active:is_active
+            jam_operasional_group_id,
+            name,
+            jam_masuk,
+            jam_pulang,
+            keterangan,
+            code,
+            is_active
         });
 
         return res.status(201).json({
@@ -197,7 +221,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await jabatanModel.findOne({
+    const findData = await jamOperasionalModel.findOne({
         where:{
             uuid:req.params.id
         }

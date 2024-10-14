@@ -1,5 +1,5 @@
 const {
-    jabatan:jabatanModel,
+    jam_operasional_group:jamOperasionalGroupModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +15,7 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAll({
+        const result = await jamOperasionalGroupModel.findAll({
             order:[sortList]
         });
 
@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAndCountAll({
+        const result = await jamOperasionalGroupModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await jabatanModel.findOne({
+        const result = await jamOperasionalGroupModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -120,11 +120,12 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, keterangan, code, is_active} = req.body;
 
     try {
-        await jabatanModel.create({
+        await jamOperasionalGroupModel.create({
             name:name,
+            keterangan:keterangan,
             code:code,
             is_active:is_active
         });
@@ -150,9 +151,9 @@ const createData = async(req, res) => {
 }
 
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, keterangan, code, is_active} = req.body;
 
-    const findData = await jabatanModel.findOne({
+    const findData = await jamOperasionalGroupModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -171,6 +172,7 @@ const updateData = async(req, res) => {
     try {
         await findData.update({
             name:name,
+            keterangan:keterangan,
             code:code,
             is_active:is_active
         });
@@ -197,7 +199,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await jabatanModel.findOne({
+    const findData = await jamOperasionalGroupModel.findOne({
         where:{
             uuid:req.params.id
         }

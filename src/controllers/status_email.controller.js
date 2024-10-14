@@ -1,5 +1,5 @@
 const {
-    jabatan:jabatanModel,
+    status_email:statusEmailModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -15,7 +15,7 @@ const getDatas = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAll({
+        const result = await statusEmailModel.findAll({
             order:[sortList]
         });
 
@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     }
 
     try {
-        const result = await jabatanModel.findAndCountAll({
+        const result = await statusEmailModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await jabatanModel.findOne({
+        const result = await statusEmailModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -123,7 +123,7 @@ const createData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
     try {
-        await jabatanModel.create({
+        await statusEmailModel.create({
             name:name,
             code:code,
             is_active:is_active
@@ -152,7 +152,7 @@ const createData = async(req, res) => {
 const updateData = async(req, res) => {
     const {name, code, is_active} = req.body;
 
-    const findData = await jabatanModel.findOne({
+    const findData = await statusEmailModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -197,7 +197,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await jabatanModel.findOne({
+    const findData = await statusEmailModel.findOne({
         where:{
             uuid:req.params.id
         }
