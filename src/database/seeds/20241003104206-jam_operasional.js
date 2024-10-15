@@ -20,7 +20,7 @@ module.exports = {
       {
         id:2,
         uuid:'eec1aa56-09a7-4d78-b729-d1dfa8165f12',
-        jam_operasional_group_id:1,
+        jam_operasional_group_id:2,
         name:'JAM OPERASIONAL REGULAR TEKNISI 1',
         jam_masuk:'09:00:00',
         jam_pulang:'18:00:00',
@@ -46,7 +46,7 @@ module.exports = {
       {
         id:4,
         uuid:'05673148-6f03-4c17-8650-43fbe8d0c7ff',
-        jam_operasional_group_id:1,
+        jam_operasional_group_id:2,
         name:'JAM OPERASIONAL REGULAR RAMADHAN TEKNISI',
         jam_masuk:'08:30:00',
         jam_pulang:'16:30:00',
@@ -85,7 +85,7 @@ module.exports = {
       {
         id:9,
         uuid:'445594b9-38cf-428d-ab12-31194619fd60',
-        jam_operasional_group_id:1,
+        jam_operasional_group_id:3,
         name:'SHIFT TEKNISI',
         jam_masuk:'18:00:00',
         jam_pulang:'06:00:00',

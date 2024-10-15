@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       in_out.belongsTo(models.user,{
         foreignKey:"user_id"
       });
+      in_out.belongsTo(models.jam_operasional,{
+        foreignKey:"jam_operasional_id"
+      });
     }
   }
   in_out.init({

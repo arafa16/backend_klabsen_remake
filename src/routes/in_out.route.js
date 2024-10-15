@@ -1,8 +1,10 @@
 const express = require('express');
 const {verifyToken} = require('../middleware/auth.middleware.js');
+
 const { 
     importInOut
 } = require('../controllers/import_inout.controller.js');
+
 const { 
     getDataById,
     getDataByUser,
@@ -10,6 +12,8 @@ const {
     updateData,
     deleteData
 } = require('../controllers/inout.controller.js');
+
+const { createDataByAbsenWeb } = require('../controllers/inout_wfh.controller.js');
 
 const router = express.Router();
 
@@ -22,5 +26,8 @@ router.delete('/data/:id', verifyToken, deleteData);
 
 //import data
 router.post('/import/:id', verifyToken, importInOut);
+
+//absen by web
+router.post('/web', verifyToken, createDataByAbsenWeb);
 
 module.exports = router;
