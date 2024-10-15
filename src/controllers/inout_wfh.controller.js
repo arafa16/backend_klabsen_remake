@@ -491,7 +491,7 @@ const executionCodePulang = async(datas) => {
                     tipe_absen_id:tipeAbsen.id,
                     tanggal_mulai:datas.date_time_format,
                     tanggal_selesai:datas.date_time_format,
-                    pelanggaran_id:1,
+                    pelanggaran_id:2,
                     status_inout_id:1,
                     jam_operasional_id:inCheck.jam_operasional_id,
                 });
@@ -529,7 +529,7 @@ const executionCodePulang = async(datas) => {
     }
 }
 
-// absen shift
+// absen masuk shift 
 const executionCodeShiftMasuk = async(datas) => {
     let data_result = null;
     
@@ -634,6 +634,196 @@ const executionCodeShiftMasuk = async(datas) => {
         }
     }
 
+}
+
+// absen pulang shift
+const executionCodeShiftPulang = async(datas) => {
+    let data_result = null;
+
+    const tipeAbsen = await findTipeAbsen({code:datas.code_tipe_absen})
+
+    if(!tipeAbsen){
+        return data_result = {
+            status:404,
+            success:false,
+            datas: {
+                data:null,
+                message: "tipe absen not found"
+            }
+        }
+    }
+
+    const inOut = await findInOut({ 
+        user_id:datas.user.id,
+        tipe_absen_id:tipeAbsen.id,
+        date_format:datas.date_format,
+        code:datas.code_pulang_shift
+    });
+
+    if(!inOut){
+        const jamOperasionalGroup = await findJamOperasionalGroup({code:3});
+
+        if(!jamOperasionalGroup){
+            return data_result = {
+                status:404,
+                success:false,
+                datas: {
+                    data:null,
+                    message: "jam operasional group not found"
+                }
+            }
+        }
+
+        const inCheck = await findInOut({
+            user_id:datas.user.id,
+            tipe_absen_id:tipeAbsen.id,
+            date_format:datas.date_format,
+            code:datas.code_masuk_shift
+        })
+
+        if(!inCheck){
+            const jamOperasionalTerakhir = await findJamOperasionalsTerakhir({
+                jam_operasional_group_id:jamOperasionalGroup.id
+            });
+
+            if(jamOperasionalTerakhir[0].jam_pulang < datas.time_format){
+                
+                const uploadAbsenTidakMasuk = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tidakAbsen.id,
+                    tanggal_mulai:datas.date_format+ ' 00:00:00',
+                    tanggal_selesai:datas.date_format+ ' 00:00:00',
+                    pelanggaran_id:2,
+                    status_inout_id:1,
+                    jam_operasional_id:jamOperasionalTerakhir[0].id,
+                });
+
+                const uploadAbsenPulangNormal = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tipeAbsen.id,
+                    tanggal_mulai:datas.date_time_format,
+                    tanggal_selesai:datas.date_time_format,
+                    pelanggaran_id:1,
+                    status_inout_id:1,
+                    jam_operasional_id:jamOperasionalTerakhir[0].id,
+                });
+
+                return data_result = {
+                    status:201,
+                    success:true,
+                    datas: {
+                        data: {
+                            uploadAbsenTidakMasuk,
+                            uploadAbsenPulangNormal
+                        },
+                        message: "success",
+                        note: "pulang normal, tapi tidak absen masuk"
+                    }
+                }
+
+
+            }
+            else{
+                const uploadAbsenTidakMasuk = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tidakAbsen.id,
+                    tanggal_mulai:datas.date_format+ ' 00:00:00',
+                    tanggal_selesai:datas.date_format+ ' 00:00:00',
+                    pelanggaran_id:2,
+                    status_inout_id:1,
+                    jam_operasional_id:jamOperasionalTerakhir[0].id,
+                });
+
+                const uploadAbsenPulangNormal = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tipeAbsen.id,
+                    tanggal_mulai:datas.date_time_format,
+                    tanggal_selesai:datas.date_time_format,
+                    pelanggaran_id:2,
+                    status_inout_id:1,
+                    jam_operasional_id:jamOperasionalTerakhir[0].id,
+                });
+
+                return data_result = {
+                    status:201,
+                    success:true,
+                    datas: {
+                        data: {
+                            uploadAbsenTidakMasuk,
+                            uploadAbsenPulangNormal
+                        },
+                        message: "success",
+                        note: "pulang pelanggaran, tidak absen masuk "
+                    }
+                }
+            }
+        }
+        else{
+            if(inCheck.jam_operasional.jam_pulang < datas.time_format){
+                const uploadAbsenNormal = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tipeAbsen.id,
+                    tanggal_mulai:datas.date_time_format,
+                    tanggal_selesai:datas.date_time_format,
+                    pelanggaran_id:1,
+                    status_inout_id:1,
+                    jam_operasional_id:inCheck.jam_operasional_id,
+                });
+
+                return data_result = {
+                    status:201,
+                    success:true,
+                    datas: {
+                        data: {
+                            uploadAbsenNormal
+                        },
+                        message: "success",
+                        note: "absen masuk ada, pulang normal"
+                    }
+                }
+            }
+            else{
+                const uploadAbsenNormal = await uploadAbsen({
+                    user_id:datas.user.id,
+                    tipe_absen_id:tipeAbsen.id,
+                    tanggal_mulai:datas.date_time_format,
+                    tanggal_selesai:datas.date_time_format,
+                    pelanggaran_id:2,
+                    status_inout_id:1,
+                    jam_operasional_id:inCheck.jam_operasional_id,
+                });
+
+                return data_result = {
+                    status:201,
+                    success:true,
+                    datas: {
+                        data: {
+                            uploadAbsenNormal
+                        },
+                        message: "success",
+                        note: "absen masuk ada, pulang pelanggaran"
+                    }
+                }
+            }
+        }
+    }
+    else{
+        await findDataOutDouble({
+            user_id:datas.user.id,
+            date_format:datas.date_format,
+            code_pulang:datas.code_pulang_shift
+        })
+    }
+    
+    return data_result = {
+        status:201,
+        success:true,
+        datas: {
+            data: inOut,
+            message: "success",
+            note: "sudah absen"
+        }
+    }
 }
 
 const createDataByAbsenWeb = async(req, res) => {
@@ -742,8 +932,37 @@ const createDataByAbsenWeb = async(req, res) => {
                 time_format:time_format,
                 date_time_format:date_time_format
             })
+    
+            return res.status(result && result.status).json({
+                status:result && result.status,
+                success:result && result.success,
+                datas:result && result.datas
+            })
+        } catch (error) {
+            return res.status(500).json({
+                status:500,
+                success:false,
+                datas: {
+                    message: error.message
+                }
+            });
+        }
+    }
 
-            console.log('result', result)
+    //absen masuk shift by web
+    const code_pulang_shift = [5];
+
+    if(code_pulang_shift.includes(code_tipe_absen)){
+        try {
+            const result = await executionCodeShiftPulang({
+                user:user,
+                code_tipe_absen:code_tipe_absen,
+                date_format:date_format,
+                code_masuk_shift:code_masuk_shift,
+                code_pulang_shift:code_pulang_shift,
+                time_format:time_format,
+                date_time_format:date_time_format
+            })
     
             return res.status(result && result.status).json({
                 status:result && result.status,
@@ -766,4 +985,3 @@ const createDataByAbsenWeb = async(req, res) => {
 module.exports = {
     createDataByAbsenWeb
 }
-
