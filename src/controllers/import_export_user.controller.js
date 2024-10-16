@@ -200,7 +200,15 @@ const importData = async(req, res)=>{
     const t = await db.sequelize.transaction();
 
     file.mv(filePath, async(err)=>{
-        if(err) return res.status(500).json({msg: err.message});
+        if(err){
+            return res.status(500).json({
+                status:500,
+                success:false,
+                datas: {
+                    message: err.message
+                }
+            });
+        }
 
         try {
             let workbook = xlsx.readFile(`./public/assets/imports/${fileName}`);
