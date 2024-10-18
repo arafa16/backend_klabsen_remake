@@ -3,7 +3,7 @@ const {verifyToken} = require('../middleware/auth.middleware.js');
 
 const { 
     importInOut
-} = require('../controllers/import_inout.controller.js');
+} = require('../controllers/import_export_inout.controller.js');
 
 const { 
     getDataById,
