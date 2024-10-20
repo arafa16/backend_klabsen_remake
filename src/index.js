@@ -39,6 +39,7 @@ const jam_operasional = require('./routes/jam_operasional.route.js');
 const in_out = require('./routes/in_out.route.js');
 const pendapatan = require('./routes/pendapatan.route.js');
 const koreksi = require('./routes/koreksi.route.js');
+const perhitungan = require('./routes/perhitungan.route.js');
 
 dotenv.config();
 
@@ -103,6 +104,7 @@ app.use('/jam_operasional', jam_operasional);
 app.use('/in_out', in_out);
 app.use('/pendapatan', pendapatan);
 app.use('/koreksi', koreksi);
+app.use('/perhitungan', perhitungan);
 
 app.listen(5000, ()=>{
     console.log('server running at port 5000');

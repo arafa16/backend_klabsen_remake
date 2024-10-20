@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     user_id: DataTypes.INTEGER,
-    in_out_id: DataTypes.INTEGER,
+    in_out_id: DataTypes.BIGINT,
     keterangan: DataTypes.TEXT,
     status_koreksi_id: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN

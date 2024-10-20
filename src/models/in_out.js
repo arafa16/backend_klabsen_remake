@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4
     },
-    user_id: DataTypes.INTEGER,
+    user_id: DataTypes.BIGINT,
     tanggal_mulai: DataTypes.DATE,
     tanggal_selesai: DataTypes.DATE,
     tipe_absen_id: DataTypes.INTEGER,

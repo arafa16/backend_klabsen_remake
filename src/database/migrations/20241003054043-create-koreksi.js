@@ -21,7 +21,7 @@ module.exports = {
         },
       },
       in_out_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: true,
         references: {
           model: "in_outs",
