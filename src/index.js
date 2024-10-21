@@ -40,6 +40,8 @@ const in_out = require('./routes/in_out.route.js');
 const pendapatan = require('./routes/pendapatan.route.js');
 const koreksi = require('./routes/koreksi.route.js');
 const perhitungan = require('./routes/perhitungan.route.js');
+const history_koreksi = require('./routes/history_koreksi.route.js');
+const notification = require('./routes/notification.route.js');
 
 dotenv.config();
 
@@ -105,7 +107,9 @@ app.use('/in_out', in_out);
 app.use('/pendapatan', pendapatan);
 app.use('/koreksi', koreksi);
 app.use('/perhitungan', perhitungan);
+app.use('/history_koreksi', history_koreksi);
+app.use('/notification', notification);
 
-app.listen(5000, ()=>{
-    console.log('server running at port 5000');
+app.listen(process.env.BACKEND_PORT, ()=>{
+    console.log(`server running at port ${process.env.BACKEND_PORT}`);
 });
