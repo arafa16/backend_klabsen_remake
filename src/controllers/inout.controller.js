@@ -167,6 +167,82 @@ const getDataByUser = async(req, res) => {
     }
 }
 
+const getDataCount = async(req, res) => {
+    const {uuid, tanggal_mulai, tanggal_selesai} = req.query;
+
+    if(!uuid || !tanggal_mulai || !tanggal_selesai){
+        return res.status(404).json({
+            status:404,
+            success: false,
+            datas:{
+                message:"uuid or tanggal mulai or tanggal selesai are not set",
+                data:null,
+            }
+        });
+    }
+
+    const findUser = await userModel.findOne({
+        where:{
+            uuid:uuid
+        }
+    });
+
+    if(!findUser){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                data: null,
+                message: "datas not found"
+            }
+        });
+    }
+
+    const start_date = date.format(new Date(tanggal_mulai), 'YYYY-MM-DD HH:mm:ss');
+    const end_date = date.format(new Date(tanggal_selesai), 'YYYY-MM-DD HH:mm:ss');
+
+    try {
+        const result = await inOutModel.findAll({
+            where:{
+                user_id:findUser.id,
+                tanggal_mulai:{
+                    [Op.and]: {
+                        [Op.gte]: start_date,
+                        [Op.lte]: end_date,
+                        }
+                }
+            },
+            include:[
+                {
+                    model:tipeAbsenModel,
+                    attributes:['uuid','name','code']
+                },
+                {
+                    model:pelanggaranModel,
+                    attributes:['uuid','name','code']
+                }
+            ]
+        })
+
+        return res.status(200).json({
+            status:200,
+            success:true,
+            datas: {
+                data:result,
+                message: "success"
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
 const createData = async(req, res) => {
     const {
         user_uuid,
@@ -448,6 +524,7 @@ const deleteData = async(req, res) => {
 module.exports = {
     getDataById,
     getDataByUser,
+    getDataCount,
     createData,
     updateData,
     deleteData

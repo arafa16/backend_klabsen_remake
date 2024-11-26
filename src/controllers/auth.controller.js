@@ -178,6 +178,9 @@ const getMe = async(req, res) => {
             include:[
                 {
                     model:privilegeModel
+                },
+                {
+                    model:statusModel
                 }
             ]
         })

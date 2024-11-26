@@ -8,6 +8,7 @@ const {
 const { 
     getDataById,
     getDataByUser,
+    getDataCount,
     createData,
     updateData,
     deleteData
@@ -19,6 +20,7 @@ const router = express.Router();
 
 router.get('/data/:id', verifyToken, getDataById);
 router.get('/user/:id', verifyToken, getDataByUser);
+router.get('/count', verifyToken, getDataCount);
 router.post('/data', verifyToken, createData);
 router.patch('/data/:id', verifyToken, updateData);
 router.delete('/data/:id', verifyToken, deleteData);
