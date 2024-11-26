@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'jam_operasional_group',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
   });
   return jam_operasional_group;

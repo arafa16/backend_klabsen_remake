@@ -72,6 +72,9 @@ app.use(cors({
 app.use(express.json());
 app.use(fileUpload());
 
+//setup public folder
+app.use(express.static('public'));
+
 //router
 app.use('/auth', auth_router);
 app.use('/reset', reset_password_router);

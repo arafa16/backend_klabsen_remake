@@ -13,11 +13,11 @@ const {
     group:groupModel,
     privilege:privilegeModel,
 } = require('../models/index.js');
-const {Op} = require('sequelize');
+const {Op, where} = require('sequelize');
 const argon = require('argon2');
 
 const getDataTable = async(req, res) => {
-    const {search, sort} = req.query;
+    const {search, sort, status_code} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
@@ -28,6 +28,18 @@ const getDataTable = async(req, res) => {
         querySearchObject.email = {[Op.like]:`%${search}%`}
     }else{
         querySearchObject.name = {[Op.like]:`%${''}%`}
+    }
+
+    if(status_code){
+        const find_status = await statusModel.findOne({
+            where:{
+                code:status_code
+            }
+        })
+
+        if(find_status !== null){
+            queryObject.status_id = find_status.id
+        }
     }
 
     const page = Number(req.query.page) || 1;
@@ -79,6 +91,75 @@ const getDataTable = async(req, res) => {
                 message:error.message
             }
         })
+    }
+}
+
+const getCountDatas = async(req, res) => {
+
+    try {
+        let result = {};
+
+        const pendaftaran = await userModel.count({
+            include:[
+                {
+                    model:statusModel,
+                    where:{
+                        code:1
+                    }
+                }
+            ]
+        });
+
+        result.pendaftaran = pendaftaran;
+
+        const active = await userModel.count({
+            include:[
+                {
+                    model:statusModel,
+                    where:{
+                        code:2
+                    }
+                }
+            ]
+        });
+
+        result.active = active
+
+        const non_active = await userModel.count({
+            include:[
+                {
+                    model:statusModel,
+                    where:{
+                        code:3
+                    }
+                }
+            ]
+        });
+
+        result.non_active = non_active
+
+        const all = await userModel.count();
+
+        result.all = all
+
+        return res.status(200).json({
+            status:200,
+            success:true,
+            datas: {
+                data:result,
+                message: "success count"
+            }
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
     }
 }
 
@@ -509,5 +590,6 @@ module.exports = {
     createData,
     updateData,
     deleteData,
-    updatePassword
+    updatePassword,
+    getCountDatas
 }

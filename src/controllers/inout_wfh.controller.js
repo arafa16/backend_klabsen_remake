@@ -342,7 +342,7 @@ const executionCodeMasuk = async(datas) => {
             success:true,
             datas: {
                 data: inOut,
-                message: "success",
+                message: "anda sudah absen",
                 note: "sudah absen"
             }
         }
@@ -516,17 +516,18 @@ const executionCodePulang = async(datas) => {
             date_format:datas.date_format,
             code_pulang:datas.code_pulang
         })
-    }
-
-    return data_result = {
-        status:201,
-        success:true,
-        datas: {
-            data: inOut,
-            message: "success",
-            note: "sudah absen"
+        
+        return data_result = {
+            status:201,
+            success:true,
+            datas: {
+                data: inOut,
+                message: "anda sudah absen",
+                note: "sudah absen"
+            }
         }
     }
+
 }
 
 // absen masuk shift 

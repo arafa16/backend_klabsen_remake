@@ -4,12 +4,14 @@ const {
     tipe_absen:tipeAbsenModel,
     pelanggaran:pelanggaranModel,
     status_inout:statusInoutModel,
-    jam_operasional:jamOperasionalModel
+    jam_operasional:jamOperasionalModel,
+    koreksi:koreksiModel
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 const sequelize = require('sequelize');
 const date = require('date-and-time');
 const moment = require('moment')
+const db = require('../models/index.js');
 
 const getDataById = async(req, res) => {
     const {id} = req.params;
@@ -18,6 +20,44 @@ const getDataById = async(req, res) => {
             where:{
                 uuid:id
             },
+            include:[
+                {
+                    model:tipeAbsenModel,
+                    attributes:{
+                        exclude:['id']
+                    }
+                },
+                {
+                    model:pelanggaranModel,
+                    attributes:{
+                        exclude:['id']
+                    }
+                },
+                {
+                    model:statusInoutModel,
+                    attributes:{
+                        exclude:['id']
+                    }
+                },
+                {
+                    model:jamOperasionalModel,
+                    attributes:{
+                        exclude:['id']
+                    }
+                },
+                {
+                    model:koreksiModel,
+                    attributes:{
+                        exclude:['inOutId']
+                    }
+                },
+                {
+                    model:userModel,
+                    attributes:[
+                        'uuid','name','email'
+                    ]
+                }
+            ],
             attributes:{
                 exclude:['id']
             }
@@ -361,8 +401,27 @@ const deleteData = async(req, res) => {
         });
     }
 
+    const findKoreksi = await koreksiModel.findAll({
+        where:{
+            in_out_id:findInout.id
+        }
+    })
+
+    const t = await db.sequelize.transaction();
+
     try {
-        await findInout.destroy();
+        await koreksiModel.destroy(
+            {
+                where:{
+                    in_out_id:findInout.id
+                }
+            },
+            { transaction: t }   
+        )
+
+        await findInout.destroy({ transaction: t });
+
+        await t.commit()
 
         return res.status(201).json({
             status:201,
@@ -373,6 +432,9 @@ const deleteData = async(req, res) => {
             }
         });
     } catch (error) {
+
+        await t.rollback();
+
         return res.status(500).json({
             status:500,
             success:false,

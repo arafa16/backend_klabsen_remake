@@ -12,7 +12,33 @@ const {Op} = require('sequelize');
 const db = require('../models/index.js');
 
 const getDatas = async(req, res) => {
-    const {sort} = req.query;
+    const {sort, user_id, atasan_id,} = req.query;
+
+    const queryAtasanObject = {};
+
+    if(user_id){
+        const findUser = await userModel.findOne({
+            where:{
+                uuid:user_id
+            }
+        })
+
+        if(!findUser){
+            queryObject.user_id = findUser.id; 
+        }
+    }
+
+    if(atasan_id){
+        const findAtasan = await userModel.findOne({
+            where:{
+                uuid:atasan_id
+            }
+        })
+
+        if(!findAtasan){
+            queryAtasanObject.atasan_id = findAtasan.id; 
+        }
+    }
 
     let sortList = {};
 
@@ -24,10 +50,11 @@ const getDatas = async(req, res) => {
 
     try {
         const result = await koreksiModel.findAll({
-            includes:[
+            include:[
                 {
                     model:userModel,
-                    attributes:['uuid','name','absen_id']
+                    attributes:['uuid','name','absen_id'],
+                    where:queryAtasanObject
                 },
                 {
                     model:statusKoreksiModel,
@@ -58,36 +85,49 @@ const getDatas = async(req, res) => {
 
 //bisa di gunakan untuk atasan page, user page atau admin page
 const getDataTable = async(req, res) => {
-    const {search, user_id, atasan_id, sort} = req.query;
+    const {search, user_id, atasan_id, status_code, sort} = req.query;
 
     const queryObject = {};
     const queryAtasanObject = {};
+    const queryStatusObject = {};
     const querySearchObject = {};
     let sortList = {};
 
+    if(status_code){
+        if(status_code !== '0'){
+            queryStatusObject.code = status_code
+        }
+    }
+
     if(user_id){
+        console.log('user id', user_id)
         const findUser = await userModel.findOne({
             where:{
                 uuid:user_id
             }
         })
 
-        if(!findUser){
+        if(findUser !== null){
             queryObject.user_id = findUser.id; 
         }
     }
 
     if(atasan_id){
+        console.log('atasan id', atasan_id)
         const findAtasan = await userModel.findOne({
             where:{
                 uuid:atasan_id
             }
         })
 
-        if(!findAtasan){
+        console.log('atasan id', findAtasan)
+
+        if(findAtasan !== null){
             queryAtasanObject.atasan_id = findAtasan.id; 
         }
     }
+
+    
 
     if(search){
         querySearchObject.id = {[Op.like]:`%${search}%`}
@@ -111,7 +151,7 @@ const getDataTable = async(req, res) => {
                 queryObject,
                 {[Op.or]:querySearchObject}
             ],
-            includes:[
+            include:[
                 {
                     model:userModel,
                     attributes:['uuid','name','absen_id','atasan_id'],
@@ -123,13 +163,17 @@ const getDataTable = async(req, res) => {
                 },
                 {
                     model:statusKoreksiModel,
-                    attributes:['uuid','name','code']
+                    attributes:['uuid','name','code'],
+                    where:queryStatusObject
                 }
             ],
             limit,
             offset,
             order:[sortList]
         });
+
+        console.log('result', result);
+
 
         return res.status(200).json({
             status:200,
@@ -226,10 +270,10 @@ const createData = async(req, res) => {
     try {
         const result_koreksi = await koreksiModel.create(
             {
-                user_id:findUser && findUser.id,
-                in_out_id:findInOut && findInOut.id,
+                user_id:findUser.id,
+                in_out_id:findInOut.id,
                 keterangan:keterangan,
-                status_koreksi_id:findStatusKoreksi && findStatusKoreksi.id,
+                status_koreksi_id:findStatusKoreksi.id,
                 is_active:is_active
             },
             { transaction: t }
@@ -237,7 +281,7 @@ const createData = async(req, res) => {
 
         const result_inout = await findInOut.update(
             {
-                status_inout_id:findStatusInout && findStatusInout.id
+                status_inout_id:findStatusInout.id
             },
             { transaction: t }
         );
@@ -624,11 +668,17 @@ const getDataById = async(req, res) => {
             where:{
                 uuid:req.params.id
             },
-            includes:[
+            include:[
                 {
                     model:userModel,
-                    as:'atasan',
-                    attributes:['uuid','name']
+                    attributes:['uuid','name'],
+                    include:[
+                        {
+                            model:userModel,
+                            as:'atasan',
+                            attributes:['uuid','name']
+                        }
+                    ]
                 },
                 {
                     model:inOutModel,
@@ -775,6 +825,68 @@ const updateData = async(req, res) => {
     }
 }
 
+const approvalData = async(req, res) => {
+    const {code} = req.body;
+    
+    const findKoreksi = await koreksiModel.findOne({
+        where:{
+            uuid:req.params.id
+        }
+    });
+
+    if(!findKoreksi){
+        return res.status(404).json({
+            status:404,
+            success:true,
+            datas: {
+                data:null,
+                message: "koreksi not found"
+            }
+        });
+    }
+
+    const findStatusKoreksi = await statusKoreksiModel.findOne({
+        where:{
+            code:code
+        }
+    });
+
+    if(!findStatusKoreksi){
+        return res.status(404).json({
+            status:404,
+            success:true,
+            datas: {
+                data:null,
+                message: "status koreksi not found"
+            }
+        });
+    }
+
+    try {
+        const result = findKoreksi.update({
+            status_koreksi_id:findStatusKoreksi.id
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            datas: {
+                data:result,
+                message: "success"
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
 const deleteData = async(req, res) => {
     const findKoreksi = await koreksiModel.findOne({
         where:{
@@ -792,6 +904,7 @@ const deleteData = async(req, res) => {
             }
         });
     }
+    
     try {
         const result = findKoreksi.destroy();
 
@@ -822,5 +935,6 @@ module.exports = {
     createData,
     createDataByDate,
     updateData,
-    deleteData
+    deleteData,
+    approvalData
 }

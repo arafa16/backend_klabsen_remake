@@ -13,14 +13,16 @@ const sendEmailReset = async(req, res)=>{
     })
 
     if(!result){
-        return res.status(404).json({
-            status:404,
+        return res.status(403).json({
+            status:403,
             success: false,
             datas:{
                message: "user not found"
             }
         });
     }
+
+    console.log(result, 'result');
 
     try {
         const token = jwt.sign({uuid:result.uuid},process.env.JWT_SECRET,{

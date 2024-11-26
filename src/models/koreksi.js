@@ -11,6 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      koreksi.belongsTo(models.user,{
+        foreignKey:"user_id"
+      });
+      koreksi.belongsTo(models.in_out,{
+        foreignKey:"in_out_id"
+      });
+      koreksi.belongsTo(models.status_koreksi,{
+        foreignKey:"status_koreksi_id"
+      });
     }
   }
   koreksi.init({
@@ -22,10 +31,12 @@ module.exports = (sequelize, DataTypes) => {
     in_out_id: DataTypes.BIGINT,
     keterangan: DataTypes.TEXT,
     status_koreksi_id: DataTypes.INTEGER,
-    is_active: DataTypes.BOOLEAN
+    is_active: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'koreksi',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
   });
   return koreksi;

@@ -20,10 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     code: DataTypes.INTEGER,
+    is_select: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'tipe_absen',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
   });
   return tipe_absen;

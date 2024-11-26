@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       in_out.belongsTo(models.jam_operasional,{
         foreignKey:"jam_operasional_id"
       });
+      in_out.hasMany(models.koreksi);
     }
   }
   in_out.init({
@@ -42,9 +43,11 @@ module.exports = (sequelize, DataTypes) => {
     jam_operasional_id: DataTypes.INTEGER,
     is_absen_web: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN
-  }, {
+  },{
     sequelize,
     modelName: 'in_out',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
   });
   return in_out;

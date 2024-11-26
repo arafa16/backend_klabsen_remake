@@ -11,7 +11,7 @@ const {
 
 const router = express.Router();
 
-router.get('/datas', verifyToken, getDatas);
+router.get('/datas', getDatas);
 router.get('/table', verifyToken, getDataTable);
 router.get('/data/:id', verifyToken, getDataById);
 router.post('/data', verifyToken, createData);

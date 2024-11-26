@@ -18,7 +18,6 @@ const { createDataByAbsenWeb } = require('../controllers/inout_wfh.controller.js
 const router = express.Router();
 
 router.get('/data/:id', verifyToken, getDataById);
-router.get('/data/:id', verifyToken, getDataById);
 router.get('/user/:id', verifyToken, getDataByUser);
 router.post('/data', verifyToken, createData);
 router.patch('/data/:id', verifyToken, updateData);

@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      is_select: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
