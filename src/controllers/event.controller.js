@@ -114,6 +114,22 @@ const createData = async(req, res) => {
         is_active
     } = req.body;
 
+    const findTipeEvent = await tipeEventModel.findOne({
+        where:{
+            uuid:tipe_event_id
+        }
+    })
+
+    if(!findTipeEvent){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                message: 'tipe event not found'
+            }
+        });
+    }
+
     try {
         await eventModel.create({
             name,  
@@ -121,7 +137,7 @@ const createData = async(req, res) => {
             tahun, 
             tanggal_mulai, 
             tanggal_selesai, 
-            tipe_event_id, 
+            tipe_event_id:findTipeEvent.id, 
             code,
             is_active
         });
@@ -153,7 +169,9 @@ const getDataById = async(req, res) => {
                 uuid:req.params.id
             },
             include:[
-                {model:tipeEventModel}
+                {
+                    model:tipeEventModel
+                }
             ],
         });
 
@@ -205,6 +223,22 @@ const updateData = async(req, res) => {
         });
     }
 
+    const findTipeEvent = await tipeEventModel.findOne({
+        where:{
+            uuid:tipe_event_id
+        }
+    })
+
+    if(!findTipeEvent){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                message: 'tipe event not found'
+            }
+        });
+    }
+
     try {
         await findData.update({
             name,
@@ -212,7 +246,7 @@ const updateData = async(req, res) => {
             tahun,
             tanggal_mulai,
             tanggal_selesai,
-            tipe_event_id,
+            tipe_event_id:findTipeEvent.id,
             code,
             is_active
         });
