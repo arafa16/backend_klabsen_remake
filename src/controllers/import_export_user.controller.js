@@ -141,6 +141,17 @@ const findStatus = async(data)=> {
     return result
 }
 
+const findStatusByCode = async(data)=> {
+    const result = await statusModel.findOne({
+        where:{
+            code:data.code
+        },
+        attributes:['id','name']
+    });
+
+    return result
+}
+
 const findGroup = async(data)=> {
     const result = await groupModel.findOne({
         where:{
@@ -397,14 +408,14 @@ const importData = async(req, res)=>{
 }
 
 const exportData = async(req, res) => {
-    const {status} = req.query;
+    const {code} = req.query;
 
     let dataResult = null;
 
     try {
 
-        if(status){
-            const statusResult = await findStatus({name:status});
+        if(code){
+            const statusResult = await findStatusByCode({code:code});
 
             if(statusResult !== null){
                 const result = await userModel.findAll({
@@ -469,14 +480,9 @@ const exportData = async(req, res) => {
                 dataResult = result;
             }
             else{
-                return res.status(404).json({
-                    status:404,
-                    success: false,
-                    datas:{
-                        message:"status not found",
-                        data:null,
-                    }
-                });
+                const result = await userModel.findAll();
+
+                dataResult = result;
             }
         }
         else{
