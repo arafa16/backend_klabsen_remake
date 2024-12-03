@@ -12,9 +12,12 @@ const {
     jam_operasional_group:jamOperasionalGroupModel,
     group:groupModel,
     privilege:privilegeModel,
+    in_out:inOutModel,
+    koreksi:koreksiModel
 } = require('../models/index.js');
 const {Op, where} = require('sequelize');
 const argon = require('argon2');
+const db = require('../models/index.js');
 
 const getDataTable = async(req, res) => {
     const {search, sort, status_code} = req.query;
@@ -245,6 +248,7 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
+    console.log(req.body)
     const { nik,
             absen_id, 
             name, 
@@ -486,12 +490,60 @@ const deleteData = async(req, res) => {
 
     if(!result){
         return res.status(404).json({
-            message:"data not found"
-        })
+            status:404,
+            success:true,
+            datas: {
+                message:"data not found"
+            }
+        });
     }
 
+    const findUser = await userModel.findAll({
+        where:{
+            atasan_id:result.id
+        }
+    })
+
+    console.log('count', findUser.length);
+
+    const t = await db.sequelize.transaction();
+
     try {
-        result.destroy();
+
+        for(let i = 1; i<=findUser.length; i++){
+            
+            await userModel.update({
+                    atasan_id:null
+                },{
+                    where:{
+                        id:findUser[i-1].id
+                    }
+                },
+                { transaction: t }
+            )
+        }
+
+        await koreksiModel.destroy({
+                where:{
+                    user_id:result.id
+                }
+            },
+            { transaction: t }
+        )
+
+        await inOutModel.destroy({
+                where:{
+                    user_id:result.id
+                }
+            },
+            { transaction: t }
+        )
+
+        await result.destroy(
+            { transaction: t }
+        );
+
+        await t.commit()
 
         return res.status(200).json({
             status:200,
@@ -502,6 +554,9 @@ const deleteData = async(req, res) => {
         });
 
     } catch (error) {
+
+        await t.rollback();
+
         return res.status(500).json({
             status:500,
             success:false,
