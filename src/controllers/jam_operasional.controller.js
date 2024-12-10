@@ -1,7 +1,8 @@
 const {
     jam_operasional:jamOperasionalModel,
+    jam_operasional_group:jamOperasionalGroupModel
 } = require('../models/index.js');
-const {Op} = require('sequelize');
+const {Op, where} = require('sequelize');
 
 const getDatas = async(req, res) => {
     const {sort} = req.query;
@@ -96,7 +97,12 @@ const getDataById = async(req, res) => {
         const result = await jamOperasionalModel.findOne({
             where:{
                 uuid:req.params.id
-            }
+            },
+            include:[
+                {
+                    model:jamOperasionalGroupModel
+                }
+            ]
         });
 
         return res.status(200).json({
@@ -130,9 +136,26 @@ const createData = async(req, res) => {
         is_active
     } = req.body;
 
+    const find_jam_operasional_group = await jamOperasionalGroupModel.findOne({
+        where:{
+            uuid:jam_operasional_group_id
+        }
+    });
+
+    if(!find_jam_operasional_group){
+        return res.status(404).json({
+            status:404,
+            success:true,
+            datas: {
+                data:null,
+                message: "jam operasional not found"
+            }
+        });
+    }
+
     try {
         await jamOperasionalModel.create({
-            jam_operasional_group_id,
+            jam_operasional_group_id:find_jam_operasional_group.id,
             name,
             jam_masuk,
             jam_pulang,
@@ -188,9 +211,26 @@ const updateData = async(req, res) => {
         });
     }
 
+    const find_jam_operasional_group = await jamOperasionalGroupModel.findOne({
+        where:{
+            uuid:jam_operasional_group_id
+        }
+    });
+
+    if(!find_jam_operasional_group){
+        return res.status(404).json({
+            status:404,
+            success:true,
+            datas: {
+                data:null,
+                message: "jam operasional not found"
+            }
+        });
+    }
+
     try {
         await findData.update({
-            jam_operasional_group_id,
+            jam_operasional_group_id:find_jam_operasional_group.id,
             name,
             jam_masuk,
             jam_pulang,

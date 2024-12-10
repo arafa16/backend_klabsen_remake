@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      jam_operasional.belongsTo(models.jam_operasional_group,{
+        foreignKey:"jam_operasional_group_id"
+      });
     }
   }
   jam_operasional.init({

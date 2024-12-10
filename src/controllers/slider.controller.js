@@ -158,7 +158,7 @@ const createData = async(req, res) => {
     // const fileSize = file.data.length;
     const ext = path.extname(file.name);
     const file_name = crypto.randomUUID()+ext;
-    const link = `/public/assets/slider/${file_name}`;
+    const link = `/assets/slider/${file_name}`;
     const allowed_type = ['.png','.jpg','.jpeg'];
 
     //filter file type

@@ -2,6 +2,7 @@ const {
     pendapatan:pendapatanModel,
     tipe_pendapatan:tipePendapatanModel,
     user:userModel,
+    group:groupModel
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -49,9 +50,9 @@ const getDataTable = async(req, res) => {
     let sortList = {};
 
     if(search){
-        querySearchObject.periode = {[Op.like]:`%${search}%`}
+        querySearchObject.pendapatan_atas = {[Op.like]:`%${search}%`}
     }else{
-        querySearchObject.periode = {[Op.like]:`%${''}%`}
+        querySearchObject.pendapatan_atas = {[Op.like]:`%${''}%`}
     }
 
     const page = Number(req.query.page) || 1;
@@ -69,6 +70,19 @@ const getDataTable = async(req, res) => {
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
+            ],
+            include:[
+                {
+                    model:userModel,
+                    include:[
+                        {
+                            model:groupModel
+                        }
+                    ]
+                },
+                {
+                    model:tipePendapatanModel,
+                }
             ],
             limit,
             offset,
@@ -98,7 +112,7 @@ const getDataTable = async(req, res) => {
 const getDataTableByUser = async(req, res) => {
     const user = req.user;
 
-    const {search, sort} = req.query;
+    const {search, sort, type} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
@@ -108,10 +122,14 @@ const getDataTableByUser = async(req, res) => {
         queryObject.user_id = user.id
     }
 
+    if(type){
+        queryObject.tipe_pendapatan_id = type
+    }
+
     if(search){
-        querySearchObject.periode = {[Op.like]:`%${search}%`}
+        querySearchObject.pendapatan_atas = {[Op.like]:`%${search}%`}
     }else{
-        querySearchObject.periode = {[Op.like]:`%${''}%`}
+        querySearchObject.pendapatan_atas = {[Op.like]:`%${''}%`}
     }
 
     const page = Number(req.query.page) || 1;
@@ -132,7 +150,51 @@ const getDataTableByUser = async(req, res) => {
             ],
             limit,
             offset,
+            include:[
+                {
+                    model:userModel
+                }
+            ],
             order:[sortList]
+        });
+
+        return res.status(200).json({
+            status:200,
+            success:true,
+            datas: {
+                data:result,
+                message: "success"
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
+const getDataById = async(req, res) => {
+    const {id} = req.params;
+
+    try {
+        const result = await pendapatanModel.findOne({
+            where:{
+                uuid:id
+            },
+            include:[
+                {
+                    model:userModel,
+                    include:[
+                        {
+                            model:groupModel
+                        }
+                    ]
+                }
+            ]
         });
 
         return res.status(200).json({
@@ -492,6 +554,7 @@ module.exports = {
     getDatas,
     getDataTable,
     getDataTableByUser,
+    getDataById,
     createData,
     updateData,
     deleteData
