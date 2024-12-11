@@ -120,13 +120,14 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, code, is_active, is_select} = req.body;
 
     try {
         await tipeAbsenModel.create({
             name:name,
             code:code,
-            is_active:is_active
+            is_active:is_active,
+            is_select:is_select
         });
 
         return res.status(201).json({
@@ -150,7 +151,7 @@ const createData = async(req, res) => {
 }
 
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, code, is_active, is_select} = req.body;
 
     const findData = await tipeAbsenModel.findOne({
         where:{
@@ -172,7 +173,8 @@ const updateData = async(req, res) => {
         await findData.update({
             name:name,
             code:code,
-            is_active:is_active
+            is_active:is_active,
+            is_select:is_select
         });
 
         return res.status(201).json({

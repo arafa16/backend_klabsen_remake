@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      color: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

@@ -120,12 +120,13 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, code, color, is_active} = req.body;
 
     try {
         await tipeEventModel.create({
             name:name,
             code:code,
+            color:color,
             is_active:is_active
         });
 
@@ -150,7 +151,7 @@ const createData = async(req, res) => {
 }
 
 const updateData = async(req, res) => {
-    const {name, code, is_active} = req.body;
+    const {name, code, color, is_active} = req.body;
 
     const findData = await tipeEventModel.findOne({
         where:{
@@ -172,6 +173,7 @@ const updateData = async(req, res) => {
         await findData.update({
             name:name,
             code:code,
+            color:color,
             is_active:is_active
         });
 

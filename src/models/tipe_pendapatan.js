@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tipe_pendapatan.init({
-    uuid: DataTypes.STRING,
+    uuid: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: DataTypes.STRING,
     code: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN

@@ -171,7 +171,7 @@ const findJamOperasionalsTerakhir = async(datas) => {
             jam_operasional_group_id:datas.jam_operasional_group_id,
             is_active:1
         },
-        order: [ [ 'created_at', 'DESC' ]]
+        order: [ [ 'code', 'DESC' ]]
     });
 
     return result

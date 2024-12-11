@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     code: DataTypes.INTEGER,
+    color: DataTypes.STRING,
     is_active: DataTypes.BOOLEAN
   }, {
     sequelize,
