@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('events', {
+    await queryInterface.createTable('user_relates', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,41 +12,21 @@ module.exports = {
       uuid: {
         type: Sequelize.STRING
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      bulan: {
-        type: Sequelize.DECIMAL,
-        allowNull: true,
-      },
-      tahun: {
-        type: Sequelize.DECIMAL,
-        allowNull: true,
-      },
-      tanggal_mulai: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },
-      tanggal_selesai: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },
-      tipe_event_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "tipe_events",
+          model: "users",
           key: "id",
         },
       },
-      note: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-      },
-      code: {
+      user_relate_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       is_active: {
         type: Sequelize.BOOLEAN,
@@ -63,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('events');
+    await queryInterface.dropTable('user_relates');
   }
 };

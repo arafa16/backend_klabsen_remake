@@ -7,7 +7,8 @@ const {
     updateData,
     deleteData, 
     updatePassword,
-    getCountDatas
+    getCountDatas,
+    getDatas
 } = require('../controllers/user.controller.js');
 
 const { 
@@ -21,6 +22,7 @@ const {
 
 const router = express.Router();
 
+router.get('/datas', verifyToken, getDatas);
 router.get('/table', verifyToken, getDataTable);
 router.get('/count', verifyToken, getCountDatas);
 router.get('/data/:id', verifyToken, getDataById);

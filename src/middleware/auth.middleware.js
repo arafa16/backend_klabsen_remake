@@ -40,7 +40,7 @@ const verifyToken = async(req, res, next) => {
                 status:401,
                 success: false,
                 data:{
-                    message: `you don't have access, user is ${findUser.status.name}`
+                    message: `you don't have access, user is ${user.status.name}`
                 }
             })
         }

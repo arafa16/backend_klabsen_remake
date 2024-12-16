@@ -93,7 +93,8 @@ const getDataByUser = async(req, res) => {
     const findUser = await userModel.findOne({
         where:{
             uuid:id
-        }
+        },
+        attributes:['id', 'uuid', 'name', 'email']
     });
 
     if(!findUser){
@@ -152,6 +153,7 @@ const getDataByUser = async(req, res) => {
             datas: {
                 data:result,
                 year:year,
+                user:findUser,
                 message: "success"
             }
         });

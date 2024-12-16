@@ -19,6 +19,55 @@ const {Op, where} = require('sequelize');
 const argon = require('argon2');
 const db = require('../models/index.js');
 
+const getDatas = async(req, res) => {
+    const {search, sort} = req.query;
+
+    const queryObject = {};
+    const querySearchObject = {};
+    let sortList = {};
+
+    if(search){
+        querySearchObject.name = {[Op.like]:`%${search}%`}
+        querySearchObject.email = {[Op.like]:`%${search}%`}
+    }else{
+        querySearchObject.name = {[Op.like]:`%${''}%`}
+    }
+
+    if(sort){
+        sortList = sort;
+    }else{
+        sortList ='name';
+    }
+
+    try {
+        const result = await userModel.findAll({
+            where:[
+                querySearchObject
+            ],
+            attribute:['uuid','name','email'],
+            order:[sortList]
+        });
+
+        return res.status(200).json({
+            status:200,
+            success: true,
+            datas:{
+                message:"success",
+                data:result,
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success: false,
+            datas:{
+                message:error.message
+            }
+        })
+    }
+}
+
 const getDataTable = async(req, res) => {
     const {search, sort, status_code} = req.query;
 
@@ -248,7 +297,6 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    console.log(req.body)
     const { nik,
             absen_id, 
             name, 
@@ -640,6 +688,7 @@ const updatePassword = async(req, res) => {
 }
 
 module.exports = {
+    getDatas,
     getDataTable,
     getDataById,
     createData,

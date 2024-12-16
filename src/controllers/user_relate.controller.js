@@ -1,6 +1,6 @@
 const {
-    event:eventModel,
-    tipe_event:tipeEventModel
+    user_relate:userRelateModel,
+    user:userModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -12,14 +12,11 @@ const getDatas = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='name';
+        sortList ='id';
     }
 
     try {
-        const result = await eventModel.findAll({
-            include:[
-                {model:tipeEventModel}
-            ],
+        const result = await userRelateModel.findAll({
             order:[sortList]
         });
 
@@ -43,14 +40,22 @@ const getDatas = async(req, res) => {
 }
 
 const getDataTable = async(req, res) => {
-    const {search, bulan, tahun, sort} = req.query;
+    const {search, user_uuid, sort} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
     let sortList = {};
 
-    if(bulan){
-        queryObject.bulan = bulan
+    if(user_uuid){
+        const findUser = await userModel.findOne({
+            where:{
+                uuid:user_uuid
+            }
+        })
+
+        if(findUser !== null){
+            queryObject.user_id = findUser.id
+        }
     }
 
     if(search){
@@ -66,17 +71,28 @@ const getDataTable = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='name';
+        sortList ='id';
     }
 
     try {
-        const result = await eventModel.findAndCountAll({
+        const result = await userRelateModel.findAndCountAll({
             where:[
-                queryObject,
-                {[Op.or]:querySearchObject}
+                queryObject
             ],
             include:[
-                {model:tipeEventModel}
+                {
+                    model:userModel,
+                    as: 'user',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id']
+                },
+                {
+                    model:userModel,
+                    as: 'user_relates',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id'],
+                    where:[
+                        querySearchObject
+                    ]
+                }
             ],
             limit,
             offset,
@@ -102,79 +118,24 @@ const getDataTable = async(req, res) => {
     }
 }
 
-const createData = async(req, res) => {
-    const {
-        name,
-        bulan, 
-        tahun,
-        tanggal_mulai,
-        tanggal_selesai,
-        tipe_event_id,
-        note,
-        code,
-        is_active
-    } = req.body;
-
-    const findTipeEvent = await tipeEventModel.findOne({
-        where:{
-            uuid:tipe_event_id
-        }
-    })
-
-    if(!findTipeEvent){
-        return res.status(404).json({
-            status:404,
-            success:false,
-            datas: {
-                message: 'tipe event not found'
-            }
-        });
-    }
-
-    try {
-        await eventModel.create({
-            name,  
-            bulan, 
-            tahun, 
-            tanggal_mulai, 
-            tanggal_selesai, 
-            tipe_event_id:findTipeEvent.id, 
-            note,
-            code,
-            is_active
-        });
-
-        return res.status(201).json({
-            status:201,
-            success:true,
-            datas: {
-                data:null,
-                message: "success"
-            }
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            status:500,
-            success:false,
-            datas: {
-                message: error.message
-            }
-        });
-    }
-}
-
 const getDataById = async(req, res) => {
     try {
-        const result = await eventModel.findOne({
+        const result = await userRelateModel.findOne({
             where:{
                 uuid:req.params.id
             },
             include:[
                 {
-                    model:tipeEventModel
+                    model:userModel,
+                    as: 'user',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id']
+                },
+                {
+                    model:userModel,
+                    as: 'user_relates',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id']
                 }
-            ],
+            ]
         });
 
         return res.status(200).json({
@@ -197,20 +158,72 @@ const getDataById = async(req, res) => {
     }
 }
 
-const updateData = async(req, res) => {
-    const {
-        name,
-        bulan, 
-        tahun,
-        tanggal_mulai,
-        tanggal_selesai,
-        tipe_event_id,
-        note,
-        code,
-        is_active
-    } = req.body;
+const createData = async(req, res) => {
+    const {user_uuid, user_relate_uuid, is_active} = req.body;
 
-    const findData = await eventModel.findOne({
+    const findUser = await userModel.findOne({
+        where:{
+            uuid:user_uuid
+        }
+    });
+
+    const findUserRelate = await userModel.findOne({
+        where:{
+            uuid:user_relate_uuid
+        }
+    });
+
+    if(!findUser){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                message: 'user not found'
+            }
+        });
+    }
+
+    if(!findUserRelate){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                message: 'user relate not found'
+            }
+        });
+    }
+
+    try {
+        await userRelateModel.create({
+            user_id:findUser.id,
+            user_relate_id:findUserRelate.id,
+            is_active:is_active
+        });
+
+        return res.status(201).json({
+            status:201,
+            success:true,
+            datas: {
+                data:null,
+                message: "success"
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
+const updateData = async(req, res) => {
+    const {user_uuid, user_relate_uuid, is_active} = req.body;
+
+    const findData = await userRelateModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -226,33 +239,43 @@ const updateData = async(req, res) => {
         });
     }
 
-    const findTipeEvent = await tipeEventModel.findOne({
+    const findUser = await userModel.findOne({
         where:{
-            uuid:tipe_event_id
+            uuid:user_uuid
         }
-    })
+    });
 
-    if(!findTipeEvent){
+    const findUserRelate = await userModel.findOne({
+        where:{
+            uuid:user_relate_uuid
+        }
+    });
+
+    if(!findUser){
         return res.status(404).json({
             status:404,
             success:false,
             datas: {
-                message: 'tipe event not found'
+                message: 'user not found'
+            }
+        });
+    }
+
+    if(!findUserRelate){
+        return res.status(404).json({
+            status:404,
+            success:false,
+            datas: {
+                message: 'user relate not found'
             }
         });
     }
 
     try {
         await findData.update({
-            name,
-            bulan, 
-            tahun,
-            tanggal_mulai,
-            tanggal_selesai,
-            tipe_event_id:findTipeEvent.id,
-            note,
-            code,
-            is_active
+            user_id:findUser.id,
+            user_relate_id:findUserRelate.id,
+            is_active:is_active
         });
 
         return res.status(201).json({
@@ -277,7 +300,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await eventModel.findOne({
+    const findData = await userRelateModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -316,12 +339,11 @@ const deleteData = async(req, res) => {
     }
 }
 
-
 module.exports = {
     getDatas,
     getDataTable,
-    createData,
     getDataById,
+    createData,
     updateData,
     deleteData
 }
