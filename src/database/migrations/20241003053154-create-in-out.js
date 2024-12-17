@@ -28,6 +28,14 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
+      latitude: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      longitude: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       tipe_absen_id: {
         type: Sequelize.INTEGER,
         allowNull: true,

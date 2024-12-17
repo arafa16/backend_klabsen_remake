@@ -240,6 +240,8 @@ const uploadAbsen = async(datas) =>{
         tipe_absen_id:datas.tipe_absen_id,
         tanggal_mulai:datas.tanggal_mulai,
         tanggal_selesai:datas.tanggal_selesai,
+        latitude:datas.latitude, 
+        longitude:datas.longitude,
         pelanggaran_id:datas.pelanggaran_id,
         status_inout_id:datas.status_inout_id,
         jam_operasional_id:datas.jam_operasional_id,
@@ -296,6 +298,8 @@ const executionCodeMasuk = async(datas) => {
                 tipe_absen_id:tipeAbsen.id,
                 tanggal_mulai:datas.date_time_format,
                 tanggal_selesai:datas.date_time_format,
+                latitude:datas.latitude, 
+                longitude:datas.longitude,
                 pelanggaran_id:2,
                 status_inout_id:1,
                 jam_operasional_id:jamOperasionalTerakhir[0].id,
@@ -320,6 +324,8 @@ const executionCodeMasuk = async(datas) => {
                 tipe_absen_id:tipeAbsen.id,
                 tanggal_mulai:datas.date_time_format,
                 tanggal_selesai:datas.date_time_format,
+                latitude:datas.latitude, 
+                longitude:datas.longitude,
                 pelanggaran_id:1,
                 status_inout_id:1,
                 jam_operasional_id:jamOperasional.id,
@@ -408,6 +414,8 @@ const executionCodePulang = async(datas) => {
                     tipe_absen_id:tipeAbsen.id,
                     tanggal_mulai:datas.date_time_format,
                     tanggal_selesai:datas.date_time_format,
+                    latitude:datas.latitude, 
+                    longitude:datas.longitude,
                     pelanggaran_id:1,
                     status_inout_id:1,
                     jam_operasional_id:jamOperasionalTerakhir[0].id,
@@ -442,6 +450,8 @@ const executionCodePulang = async(datas) => {
                     tipe_absen_id:tipeAbsen.id,
                     tanggal_mulai:datas.date_time_format,
                     tanggal_selesai:datas.date_time_format,
+                    latitude:datas.latitude, 
+                    longitude:datas.longitude,
                     pelanggaran_id:2,
                     status_inout_id:1,
                     jam_operasional_id:jamOperasionalTerakhir[0].id,
@@ -468,6 +478,8 @@ const executionCodePulang = async(datas) => {
                     tipe_absen_id:tipeAbsen.id,
                     tanggal_mulai:datas.date_time_format,
                     tanggal_selesai:datas.date_time_format,
+                    latitude:datas.latitude, 
+                    longitude:datas.longitude,
                     pelanggaran_id:1,
                     status_inout_id:1,
                     jam_operasional_id:inCheck.jam_operasional_id,
@@ -491,6 +503,8 @@ const executionCodePulang = async(datas) => {
                     tipe_absen_id:tipeAbsen.id,
                     tanggal_mulai:datas.date_time_format,
                     tanggal_selesai:datas.date_time_format,
+                    latitude:datas.latitude, 
+                    longitude:datas.longitude,
                     pelanggaran_id:2,
                     status_inout_id:1,
                     jam_operasional_id:inCheck.jam_operasional_id,
@@ -828,8 +842,8 @@ const executionCodeShiftPulang = async(datas) => {
 }
 
 const createDataByAbsenWeb = async(req, res) => {
-    const {user_uuid, tanggal_mulai, tanggal_selesai, code_tipe_absen} = req.body;
-
+    const {user_uuid, tanggal_mulai, tanggal_selesai, latitude, longitude, code_tipe_absen} = req.body;
+    
     const get_date = new Date(tanggal_mulai);
     const time_format = date.format(get_date, 'HH:mm:ss');
     const date_format = date.format(get_date, 'YYYY-MM-DD');
@@ -868,6 +882,8 @@ const createDataByAbsenWeb = async(req, res) => {
                 user:user,
                 code_tipe_absen:code_tipe_absen,
                 date_format:date_format,
+                latitude, 
+                longitude,
                 code_masuk:code_masuk,
                 time_format:time_format,
                 date_time_format:date_time_format
@@ -898,6 +914,8 @@ const createDataByAbsenWeb = async(req, res) => {
                 user:user,
                 code_tipe_absen:code_tipe_absen,
                 date_format:date_format,
+                latitude, 
+                longitude,
                 code_masuk:code_masuk,
                 code_pulang:code_pulang,
                 time_format:time_format,

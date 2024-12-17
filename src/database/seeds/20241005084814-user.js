@@ -13,6 +13,7 @@ module.exports = {
         name: 'admin',
         email: 'admin@gmail.com',
         password: await argon.hash('admin'),
+        jam_operasional_group_id:1,
         privilege_id: 1,
         status_id: 2,
         created_at: new Date(),

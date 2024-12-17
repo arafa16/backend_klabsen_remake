@@ -37,6 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     user_id: DataTypes.BIGINT,
     tanggal_mulai: DataTypes.DATE,
     tanggal_selesai: DataTypes.DATE,
+    latitude: DataTypes.TEXT,
+    longitude: DataTypes.TEXT,
     tipe_absen_id: DataTypes.INTEGER,
     pelanggaran_id: DataTypes.INTEGER,
     status_inout_id: DataTypes.INTEGER,
