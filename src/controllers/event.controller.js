@@ -53,6 +53,10 @@ const getDataTable = async(req, res) => {
         queryObject.bulan = bulan
     }
 
+    if(tahun){
+        queryObject.tahun = tahun
+    }
+
     if(search){
         querySearchObject.name = {[Op.like]:`%${search}%`}
     }else{

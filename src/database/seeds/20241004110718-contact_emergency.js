@@ -23,7 +23,7 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id:3,
+        id:5,
         uuid:'f4d7d0df-580c-457c-8d4d-153e86d9afa0',
         name:'SAUDARA KANDUNG',
         code:3,
@@ -32,7 +32,7 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id:4,
+        id:6,
         uuid:'26d802b4-3bd2-4adf-8c31-ee333ec7aa87',
         name:'SUAMI',
         code:4,
@@ -41,7 +41,7 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        id:5,
+        id:7,
         uuid:'d16be39f-9e3e-4af5-8abd-34e6fc0fa46d',
         name:'ISTRI',
         code:5,
