@@ -6,10 +6,12 @@ const {
     status_inout:statusInoutModel,
     tipe_absen:tipeAbsenModel,
     pelanggaran:pelanggaranModel,
-    jam_operasional:jamOperasionalModel
+    jam_operasional:jamOperasionalModel,
+    data_email:dataEmailModel
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 const db = require('../models/index.js');
+const date = require('date-and-time');
 
 const getDatas = async(req, res) => {
     const {sort, user_id, atasan_id,} = req.query;
@@ -200,7 +202,13 @@ const createData = async(req, res) => {
     const findUser = await userModel.findOne({
         where:{
             uuid:user_id
-        }
+        },
+        include:[
+            {
+                model:userModel,
+                as: 'atasan'
+            },
+        ]
     });
 
     if(!findUser){
@@ -257,7 +265,7 @@ const createData = async(req, res) => {
     if(!findStatusInout){
         return res.status(404).json({
             status:404,
-            success:true,
+            success:false,
             datas: {
                 data:null,
                 message: "status inout not found"
@@ -286,6 +294,25 @@ const createData = async(req, res) => {
             { transaction: t }
         );
 
+        const result_data_email = await dataEmailModel.create(
+            {
+                name:`koreksi ${findUser.name} - ${date.format(findInOut.tanggal_mulai, 'YYYY-MM-DD HH:mm:ss')}`,
+                from:`<no-replay@kopkarla.co.id>`,
+                to:`${findUser.atasan.email}`,
+                subject:`koreksi ${findUser.name} - ${date.format(findInOut.tanggal_mulai, 'YYYY-MM-DD HH:mm:ss')}`,
+                text_email:`Dear ${findUser.atasan.name}
+                
+                ${process.env.LINK_FRONTEND}/koreksi/view?uuid=${result_koreksi.uuid}&code=0
+                
+                Terima kasih.
+                `,
+                status_email_id:2,
+                code:1,
+                is_active:true
+            },
+            { transaction: t }
+        )
+
         await t.commit()
 
         return res.status(201).json({
@@ -294,7 +321,8 @@ const createData = async(req, res) => {
             datas: {
                 data:{
                     result_koreksi,
-                    result_inout
+                    result_inout,
+                    result_data_email
                 },
                 message: "success"
             }
@@ -482,7 +510,13 @@ const createDataByDate = async(req, res) => {
     const findUser = await userModel.findOne({
         where:{
             uuid:user_id
-        }
+        },
+        include:[
+            {
+                model:userModel,
+                as: 'atasan'
+            },
+        ]
     });
 
     if(!findUser){
@@ -624,17 +658,19 @@ const createDataByDate = async(req, res) => {
             { transaction: t }
         );
 
-        // // create reusable transporter object using the default SMTP transport
-        // const transporter = nodemailer.createTransport({
-        //     host: process.env.HOST,
-        //     port: process.env.MAIL_PORT,
-        //     auth: {
-        //         user: process.env.MAIL,
-        //         pass: process.env.MAIL_PASS
-        //     }
-        // });
-
-        // await transporter.sendMail(msg);
+        const result_data_email = await dataEmailModel.create(
+            {
+                name:`Koreksi Absen ${findUser.name} - ${date.format(result_create_inout.tanggal_mulai, 'YYYY-MM-DD HH:mm:ss')}`,
+                from:`<no-replay@kopkarla.co.id>`,
+                to:`${findUser.atasan.email}`,
+                subject:`Koreksi Absen ${findUser.name} - ${date.format(result_create_inout.tanggal_mulai, 'YYYY-MM-DD HH:mm:ss')}`,
+                text_email:`Dear ${findUser.atasan.name} ${process.env.LINK_FRONTEND}/koreksi/view?uuid=${result_koreksi.uuid}&code=0`,
+                status_email_id:2,
+                code:1,
+                is_active:true
+            },
+            { transaction: t }
+        )
 
         await t.commit()
 
@@ -644,7 +680,8 @@ const createDataByDate = async(req, res) => {
             datas: {
                 data:{
                     result_koreksi,
-                    result_create_inout
+                    result_create_inout,
+                    result_data_email
                 },
                 message: "success"
             }

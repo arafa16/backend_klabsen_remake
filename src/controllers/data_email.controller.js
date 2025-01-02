@@ -62,7 +62,7 @@ const getDataTable = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='name';
+        sortList ='id';
     }
 
     try {
