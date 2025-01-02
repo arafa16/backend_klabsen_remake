@@ -54,6 +54,7 @@ const store = new sessionStore({
     db:db.sequelize
 });
 
+
 app.use(session({
     secret: process.env.SESS_SECRET,
     resave: false,
@@ -61,7 +62,7 @@ app.use(session({
     store:store,
     cookie: {
         secure: 'auto',
-        expires: process.env.SESS_EXPIRES
+        expires: 1000 * 60 * 60 * process.env.SESS_EXPIRES
     }
 }))
 
