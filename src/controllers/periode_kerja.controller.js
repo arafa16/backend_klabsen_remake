@@ -39,11 +39,15 @@ const getDatas = async(req, res) => {
 }
 
 const getDataTable = async(req, res) => {
-    const {search, sort} = req.query;
+    const {search, sort, is_active} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
     let sortList = {};
+
+    if(is_active){
+        queryObject.is_active = is_active
+    }
 
     if(search){
         querySearchObject.name = {[Op.like]:`%${search}%`}
