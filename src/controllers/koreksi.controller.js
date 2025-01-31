@@ -343,7 +343,7 @@ const createData = async(req, res) => {
 const getCountDatas = async(req, res) => {
     const {user_id, atasan_id} = req.query;
 
-    let result = null;
+    let result = {};
 
     try {
         if(user_id){
@@ -359,7 +359,7 @@ const getCountDatas = async(req, res) => {
                     where:{
                         user_id:user.id
                     },
-                    includes:[
+                    include:[
                         {
                             model:statusKoreksiModel,
                             where:{
@@ -375,7 +375,7 @@ const getCountDatas = async(req, res) => {
                     where:{
                         user_id:user.id
                     },
-                    includes:[
+                    include:[
                         {
                             model:statusKoreksiModel,
                             where:{
@@ -391,7 +391,7 @@ const getCountDatas = async(req, res) => {
                     where:{
                         user_id:user.id
                     },
-                    includes:[
+                    include:[
                         {
                             model:statusKoreksiModel,
                             where:{
@@ -402,6 +402,14 @@ const getCountDatas = async(req, res) => {
                 });
     
                 result.not_approved = not_approved
+
+                const all = await koreksiModel.count({
+                    where:{
+                        user_id:user.id
+                    }
+                });
+    
+                result.all = all
             }
         }
     
@@ -415,11 +423,11 @@ const getCountDatas = async(req, res) => {
             if(findAtasan !== null){
     
                 const pengajuan = await koreksiModel.count({
-                    includes:[
+                    include:[
                         {
                             model:userModel,
                             where:{
-                                id:findAtasan.id
+                                atasan_id:findAtasan.id
                             }
                         },
                         {
@@ -434,11 +442,11 @@ const getCountDatas = async(req, res) => {
                 result.pengajuan = pengajuan
     
                 const approved = await koreksiModel.count({
-                    includes:[
+                    include:[
                         {
                             model:userModel,
                             where:{
-                                id:findAtasan.id
+                                atasan_id:findAtasan.id
                             }
                         },
                         {
@@ -452,12 +460,12 @@ const getCountDatas = async(req, res) => {
     
                 result.approved = approved
     
-                const non_approved = await koreksiModel.count({
-                    includes:[
+                const not_approved = await koreksiModel.count({
+                    include:[
                         {
                             model:userModel,
                             where:{
-                                id:findAtasan.id
+                                atasan_id:findAtasan.id
                             }
                         },
                         {
@@ -469,7 +477,20 @@ const getCountDatas = async(req, res) => {
                     ]
                 });
     
-                result.non_approved = non_approved
+                result.not_approved = not_approved
+
+                const all = await koreksiModel.count({
+                    include:[
+                        {
+                            model:userModel,
+                            where:{
+                                atasan_id:findAtasan.id
+                            }
+                        }
+                    ]
+                });
+    
+                result.all = all
             }
         }
     
