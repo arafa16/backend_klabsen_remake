@@ -28,7 +28,7 @@ const getDatas = async(req, res) => {
 
     if(search){
         querySearchObject.name = {[Op.like]:`%${search}%`}
-        querySearchObject.email = {[Op.like]:`%${search}%`}
+        // querySearchObject.email = {[Op.like]:`%${search}%`}
     }else{
         querySearchObject.name = {[Op.like]:`%${''}%`}
     }
@@ -41,9 +41,9 @@ const getDatas = async(req, res) => {
 
     try {
         const result = await userModel.findAll({
-            where:[
+            where:{
                 querySearchObject
-            ],
+            },
             attribute:['uuid','name','email'],
             order:[sortList]
         });
