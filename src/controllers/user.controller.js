@@ -41,9 +41,9 @@ const getDatas = async(req, res) => {
 
     try {
         const result = await userModel.findAll({
-            where:{
+            where:[
                 querySearchObject
-            },
+            ],
             attribute:['uuid','name','email'],
             order:[sortList]
         });
