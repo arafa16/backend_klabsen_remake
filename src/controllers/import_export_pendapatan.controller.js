@@ -99,6 +99,18 @@ const importPendapatans = async(req, res) => {
                 let tipe_pendapatan_id = null;
                 let user_id = null;
 
+                if(!data[i].tipe_pendapatan){
+                    await t.rollback()
+
+                    return res.status(404).json({
+                        status:404,
+                        success:false,
+                        datas: {
+                            message: `${data[i].name} : tipe pendapatan not found`
+                        }
+                    });
+                }
+
                 if(data[i].tipe_pendapatan){
                     const result = await findTipePendapatan({name:data[i].tipe_pendapatan});
                     
@@ -107,6 +119,18 @@ const importPendapatans = async(req, res) => {
 
                 if(data[i].nik){
                     const result = await findUser({nik:data[i].nik});
+
+                    if(!result){
+                        await t.rollback()
+
+                        return res.status(404).json({
+                            status:404,
+                            success:false,
+                            datas: {
+                                message: `${data[i].nik} : user not found`
+                            }
+                        });
+                    }
                     
                     user_id = result && result.id;
                 }
