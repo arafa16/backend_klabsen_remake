@@ -43,6 +43,10 @@ const perhitungan = require('./routes/perhitungan.route.js');
 const history_koreksi = require('./routes/history_koreksi.route.js');
 const notification = require('./routes/notification.route.js');
 const user_relate = require('./routes/user_relate.route.js');
+const overtime_task_status = require('./routes/overtime_task_status.route.js');
+const overtime_report_status = require('./routes/overtime_report_status.route.js');
+const overtime_report = require('./routes/overtime_report.route.js');
+const overtime_task = require('./routes/overtime_task.route.js');
 
 dotenv.config();
 
@@ -115,6 +119,10 @@ app.use('/perhitungan', perhitungan);
 app.use('/history_koreksi', history_koreksi);
 app.use('/notification', notification);
 app.use('/user_relate', user_relate);
+app.use('/overtime_task_status', overtime_task_status);
+app.use('/overtime_report_status', overtime_report_status);
+app.use('/overtime_report', overtime_report);
+app.use('/overtime_task', overtime_task);
 
 app.listen(process.env.BACKEND_PORT, ()=>{
     console.log(`server running at port ${process.env.BACKEND_PORT}`);

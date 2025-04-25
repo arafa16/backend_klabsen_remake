@@ -152,6 +152,31 @@ module.exports = {
         allowNull: true,
         defaultValue: false,
       },
+      overtime: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
+      overtime_user: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
+      overtime_superior: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
+      overtime_assignor: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
+      overtime_admin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

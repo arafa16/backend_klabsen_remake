@@ -11,10 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      overtime_task.belongsTo(models.overtime_task_status,{
+        foreignKey:"overtime_task_status_id"
+      });
+      overtime_task.belongsTo(models.user,{
+        foreignKey:"user_id"
+      });
+      overtime_task.belongsTo(models.user, {
+        as: 'assignor', foreignKey: 'assignor_id'
+      });
+      overtime_task.belongsTo(models.user, {
+        as: 'superior', foreignKey: 'superior_id'
+      });
+      overtime_task.hasOne(models.overtime_report);
+      overtime_task.hasMany(models.overtime_history);
     }
   }
   overtime_task.init({
-    uuid: DataTypes.STRING,
+    uuid: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4
+    },
     assignor_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     number: DataTypes.STRING,
@@ -27,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'overtime_task',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     underscored: true,
   });
   return overtime_task;

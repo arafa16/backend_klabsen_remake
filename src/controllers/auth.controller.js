@@ -1,4 +1,10 @@
-const {user : userModel, status:statusModel, privilege:privilegeModel } = require('../models');
+const {
+    user : userModel, 
+    status:statusModel, 
+    privilege:privilegeModel, 
+    group:groupModel, 
+    penempatan:penempatanModel 
+} = require('../models');
 const argon = require('argon2');
 const jwt = require('jsonwebtoken');
 // const nodemailer = require('nodemailer');
@@ -181,6 +187,12 @@ const getMe = async(req, res) => {
                 },
                 {
                     model:statusModel
+                },
+                {
+                    model:groupModel
+                },
+                {
+                    model:penempatanModel
                 }
             ]
         })

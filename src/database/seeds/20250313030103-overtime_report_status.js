@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('overtime_tast_statuses',[
+    return queryInterface.bulkInsert('overtime_report_statuses',[
       {
         id:1,
         uuid:'1c09ee81-0c75-4728-bbba-1b91fb0c571e',
@@ -36,6 +36,15 @@ module.exports = {
         uuid:'25547b22-82ae-497d-84a7-5a85cddc8212',
         name:'Approved',
         code:4,
+        is_active:true,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id:5,
+        uuid:'25547b22-82ae-497d-84a7-5a85cddc8213',
+        name:'Cancel',
+        code:5,
         is_active:true,
         created_at: new Date(),
         updated_at: new Date(),

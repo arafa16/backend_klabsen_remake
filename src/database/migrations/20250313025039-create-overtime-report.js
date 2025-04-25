@@ -36,7 +36,7 @@ module.exports = {
       superior_id: {
         type: Sequelize.INTEGER
       },
-      overtime_task_status_id: {
+      overtime_report_status_id: {
         type: Sequelize.INTEGER
       },
       is_active: {

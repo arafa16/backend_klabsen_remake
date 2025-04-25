@@ -2,22 +2,18 @@ const express = require('express');
 const {verifyToken} = require('../middleware/auth.middleware.js');
 const { 
     getDatas,
-    getDataSelect,
     getDataTable,
     getDataById,
-    getDataByIdForInOut,
     createData,
     updateData,
     deleteData
-} = require('../controllers/periode_kerja.controller.js');
+} = require('../controllers/overtime_report.controller.js');
 
 const router = express.Router();
 
 router.get('/datas', verifyToken, getDatas);
-router.get('/select', verifyToken, getDataSelect);
 router.get('/table', verifyToken, getDataTable);
 router.get('/data/:id', verifyToken, getDataById);
-router.get('/data/:id/:userId/inout', verifyToken, getDataByIdForInOut);
 router.post('/data', verifyToken, createData);
 router.patch('/data/:id', verifyToken, updateData);
 router.delete('/data/:id', verifyToken, deleteData);

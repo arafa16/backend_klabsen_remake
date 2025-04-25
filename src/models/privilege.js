@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
     data_employee: DataTypes.BOOLEAN,
     attribute: DataTypes.BOOLEAN,
     setting: DataTypes.BOOLEAN,
+    overtime: DataTypes.BOOLEAN,
+    overtime_user: DataTypes.BOOLEAN,
+    overtime_superior: DataTypes.BOOLEAN,
+    overtime_assignor: DataTypes.BOOLEAN,
+    overtime_admin: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN
   }, {
     sequelize,

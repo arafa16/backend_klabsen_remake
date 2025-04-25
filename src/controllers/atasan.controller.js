@@ -7,7 +7,10 @@ const getDatas = async(req, res) => {
         const result = await userModel.findAll({
             where:{
                 is_atasan:true
-            }
+            },
+            order:[
+                ['name', 'ASC']
+            ]
         });
 
         return res.status(200).json({

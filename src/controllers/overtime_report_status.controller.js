@@ -1,5 +1,5 @@
 const {
-    privilege:privilegeModel,
+    overtime_report_status:overtimeReportStatusModel,
 } = require('../models/index.js');
 const {Op} = require('sequelize');
 
@@ -11,11 +11,11 @@ const getDatas = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='id';
+        sortList ='name';
     }
 
     try {
-        const result = await privilegeModel.findAll({
+        const result = await overtimeReportStatusModel.findAll({
             order:[sortList]
         });
 
@@ -46,9 +46,9 @@ const getDataTable = async(req, res) => {
     let sortList = {};
 
     if(search){
-        querySearchObject.id = {[Op.like]:`%${search}%`}
+        querySearchObject.name = {[Op.like]:`%${search}%`}
     }else{
-        querySearchObject.id = {[Op.like]:`%${''}%`}
+        querySearchObject.name = {[Op.like]:`%${''}%`}
     }
 
     const page = Number(req.query.page) || 1;
@@ -58,11 +58,11 @@ const getDataTable = async(req, res) => {
     if(sort){
         sortList = sort;
     }else{
-        sortList ='id';
+        sortList ='code';
     }
 
     try {
-        const result = await privilegeModel.findAndCountAll({
+        const result = await overtimeReportStatusModel.findAndCountAll({
             where:[
                 queryObject,
                 {[Op.or]:querySearchObject}
@@ -93,7 +93,7 @@ const getDataTable = async(req, res) => {
 
 const getDataById = async(req, res) => {
     try {
-        const result = await privilegeModel.findOne({
+        const result = await overtimeReportStatusModel.findOne({
             where:{
                 uuid:req.params.id
             }
@@ -120,65 +120,13 @@ const getDataById = async(req, res) => {
 }
 
 const createData = async(req, res) => {
-    const {
-        dashboard,
-        edit_user_sub,
-        absen,
-        kalendar_sub,
-        pengajuan_koreksi_sub,
-        approval_koreksi_sub,
-        approval_all_koreksi_sub,
-        absen_modal,
-        wfh_modal,
-        shift_modal,
-        absen_check,
-        admin_event,
-        perhitungan_absen,
-        slip_gaji,
-        pendapatan_sub,
-        pendapatan_lain_sub,
-        pendapatan_admin_sub,
-        employees,
-        data_employee,
-        attribute,
-        setting,
-        overtime,
-        overtime_user,
-        overtime_superior,
-        overtime_assignor,
-        overtime_admin,
-        is_active
-    } = req.body;
+    const {name, code, is_active} = req.body;
 
     try {
-        await privilegeModel.create({
-            dashboard,
-            edit_user_sub,
-            absen,
-            kalendar_sub,
-            pengajuan_koreksi_sub,
-            approval_koreksi_sub,
-            approval_all_koreksi_sub,
-            absen_modal,
-            wfh_modal,
-            shift_modal,
-            absen_check,
-            admin_event,
-            perhitungan_absen,
-            slip_gaji,
-            pendapatan_sub,
-            pendapatan_lain_sub,
-            pendapatan_admin_sub,
-            employees,
-            data_employee,
-            attribute,
-            setting,
-            overtime,
-            overtime_user,
-            overtime_superior,
-            overtime_assignor,
-            overtime_admin,
-            is_active
+        await overtimeReportStatusModel.create({
+            name:name,
+            code:code,
+            is_active:is_active
         });
 
         return res.status(201).json({
@@ -202,37 +150,9 @@ const createData = async(req, res) => {
 }
 
 const updateData = async(req, res) => {
-    const {
-        dashboard,
-        edit_user_sub,
-        absen,
-        kalendar_sub,
-        pengajuan_koreksi_sub,
-        approval_koreksi_sub,
-        approval_all_koreksi_sub,
-        absen_modal,
-        wfh_modal,
-        shift_modal,
-        absen_check,
-        admin_event,
-        perhitungan_absen,
-        slip_gaji,
-        pendapatan_sub,
-        pendapatan_lain_sub,
-        pendapatan_admin_sub,
-        employees,
-        data_employee,
-        attribute,
-        setting,
-        overtime,
-        overtime_user,
-        overtime_superior,
-        overtime_assignor,
-        overtime_admin,
-        is_active
-    } = req.body;
+    const {name, code, is_active} = req.body;
 
-    const findData = await privilegeModel.findOne({
+    const findData = await overtimeReportStatusModel.findOne({
         where:{
             uuid:req.params.id
         }
@@ -250,33 +170,9 @@ const updateData = async(req, res) => {
 
     try {
         await findData.update({
-            dashboard,
-            edit_user_sub,
-            absen,
-            kalendar_sub,
-            pengajuan_koreksi_sub,
-            approval_koreksi_sub,
-            approval_all_koreksi_sub,
-            absen_modal,
-            wfh_modal,
-            shift_modal,
-            absen_check,
-            admin_event,
-            perhitungan_absen,
-            slip_gaji,
-            pendapatan_sub,
-            pendapatan_lain_sub,
-            pendapatan_admin_sub,
-            employees,
-            data_employee,
-            attribute,
-            setting,
-            overtime,
-            overtime_user,
-            overtime_superior,
-            overtime_assignor,
-            overtime_admin,
-            is_active
+            name:name,
+            code:code,
+            is_active:is_active
         });
 
         return res.status(201).json({
@@ -301,7 +197,7 @@ const updateData = async(req, res) => {
 
 const deleteData = async(req, res) => {
 
-    const findData = await privilegeModel.findOne({
+    const findData = await overtimeReportStatusModel.findOne({
         where:{
             uuid:req.params.id
         }

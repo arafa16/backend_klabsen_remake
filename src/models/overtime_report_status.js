@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   overtime_report_status.init({
-    uuid: DataTypes.STRING,
+    uuid: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: DataTypes.STRING,
     code: DataTypes.STRING,
     is_active: DataTypes.BOOLEAN
