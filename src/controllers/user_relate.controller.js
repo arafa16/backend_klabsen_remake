@@ -118,6 +118,84 @@ const getDataTable = async(req, res) => {
     }
 }
 
+const getDataTableByUser = async(req, res) => {
+    const {search, user_uuid, sort} = req.query;
+
+    const queryObject = {};
+    const querySearchObject = {};
+    let sortList = {};
+
+    
+    const findUser = await userModel.findOne({
+        where:{
+            uuid:req.user.uuid
+        }
+    })
+
+    if(findUser !== null){
+        queryObject.user_id = findUser.id
+    }
+
+    if(search){
+        querySearchObject.name = {[Op.like]:`%${search}%`}
+    }else{
+        querySearchObject.name = {[Op.like]:`%${''}%`}
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const offset = Number(page - 1) * limit;
+
+    if(sort){
+        sortList = sort;
+    }else{
+        sortList ='id';
+    }
+
+    try {
+        const result = await userRelateModel.findAndCountAll({
+            where:[
+                queryObject
+            ],
+            include:[
+                {
+                    model:userModel,
+                    as: 'user',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id']
+                },
+                {
+                    model:userModel,
+                    as: 'user_relates',
+                    attributes:['uuid','name', 'email', 'url_image', 'image', 'status_id'],
+                    where:[
+                        querySearchObject
+                    ]
+                }
+            ],
+            limit,
+            offset,
+            order:[sortList]
+        });
+
+        return res.status(200).json({
+            status:200,
+            success:true,
+            datas: {
+                data:result,
+                message: "success"
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+}
+
 const getDataById = async(req, res) => {
     try {
         const result = await userRelateModel.findOne({
@@ -342,6 +420,7 @@ const deleteData = async(req, res) => {
 module.exports = {
     getDatas,
     getDataTable,
+    getDataTableByUser,
     getDataById,
     createData,
     updateData,
