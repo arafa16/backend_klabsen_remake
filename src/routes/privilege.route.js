@@ -6,6 +6,7 @@ const {
     getDataById,
     createData,
     updateData,
+    updateDataArray,
     deleteData
 } = require('../controllers/privilege.controller.js');
 
@@ -16,6 +17,7 @@ router.get('/table', verifyToken, getDataTable);
 router.get('/data/:id', verifyToken, getDataById);
 router.post('/data', verifyToken, createData);
 router.patch('/data/:id', verifyToken, updateData);
+router.patch('/datas', verifyToken, updateDataArray);
 router.delete('/data/:id', verifyToken, deleteData);
 
 module.exports = router;

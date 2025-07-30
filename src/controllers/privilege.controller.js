@@ -1,7 +1,9 @@
 const {
     privilege:privilegeModel,
+    penempatan:penempatanModal,
+    user:userModel
 } = require('../models/index.js');
-const {Op} = require('sequelize');
+const {Op, where} = require('sequelize');
 
 const getDatas = async(req, res) => {
     const {sort} = req.query;
@@ -299,6 +301,67 @@ const updateData = async(req, res) => {
     }
 }
 
+const updateDataArray = async(req, res) => {
+    const {penempatan_uuid, wfh_modal} = req.body
+
+    const queryObject = {};
+
+    try {
+        if(penempatan_uuid){
+            const penempatan = await penempatanModal.findOne({
+                where:{
+                    uuid:penempatan_uuid
+                }
+            })
+
+            
+
+            if(penempatan !== null){
+                queryObject.penempatan_id = penempatan.id
+            }
+        }
+
+        
+
+        const findData = await privilegeModel.findAll({
+            include:[
+                {
+                    model:userModel,
+                    where:queryObject
+                },
+            ]
+        });
+
+        // Update each found privilege instance
+        const updateResults = [];
+        for (const item of findData) {
+            const updated = await item.update({
+                wfh_modal: wfh_modal
+            });
+            updateResults.push(updated);
+        }
+
+        return res.status(201).json({
+                status:201,
+                success:true,
+                datas: {
+                    data:updateResults,
+                    message: "success"
+                }
+            });
+    } catch (error) {
+        return res.status(500).json({
+            status:500,
+            success:false,
+            datas: {
+                message: error.message
+            }
+        });
+    }
+
+    
+}
+
 const deleteData = async(req, res) => {
 
     const findData = await privilegeModel.findOne({
@@ -346,5 +409,6 @@ module.exports = {
     getDataById,
     createData,
     updateData,
+    updateDataArray,
     deleteData
 }

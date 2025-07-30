@@ -69,11 +69,23 @@ const getDatas = async(req, res) => {
 }
 
 const getDataTable = async(req, res) => {
-    const {search, sort, status_code} = req.query;
+    const {search, sort, status_code, penempatan_uuid} = req.query;
 
     const queryObject = {};
     const querySearchObject = {};
     let sortList = {};
+
+    if(penempatan_uuid){
+        const findPenempatan = await penempatanModel.findOne({
+            where:{
+                uuid:penempatan_uuid
+            }
+        })
+
+        if(findPenempatan !== null){
+            queryObject.penempatan_id = findPenempatan.id
+        }
+    }
 
     if(search){
         querySearchObject.name = {[Op.like]:`%${search}%`}
@@ -118,6 +130,9 @@ const getDataTable = async(req, res) => {
                 },
                 {
                     model:statusModel
+                },
+                {
+                    model:privilegeModel
                 }
             ],
             attributes:{
