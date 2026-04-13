@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class privilege extends Model {
     /**
@@ -13,44 +11,48 @@ module.exports = (sequelize, DataTypes) => {
       privilege.hasMany(models.user);
     }
   }
-  privilege.init({
-    uuid: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4
+  privilege.init(
+    {
+      uuid: {
+        type: DataTypes.STRING,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      dashboard: DataTypes.BOOLEAN,
+      edit_user_sub: DataTypes.BOOLEAN,
+      absen: DataTypes.BOOLEAN,
+      kalendar_sub: DataTypes.BOOLEAN,
+      pengajuan_koreksi_sub: DataTypes.BOOLEAN,
+      approval_koreksi_sub: DataTypes.BOOLEAN,
+      approval_all_koreksi_sub: DataTypes.BOOLEAN,
+      absen_modal: DataTypes.BOOLEAN,
+      wfh_modal: DataTypes.BOOLEAN,
+      shift_modal: DataTypes.BOOLEAN,
+      on_site_modal: DataTypes.BOOLEAN,
+      absen_check: DataTypes.BOOLEAN,
+      admin_event: DataTypes.BOOLEAN,
+      perhitungan_absen: DataTypes.BOOLEAN,
+      slip_gaji: DataTypes.BOOLEAN,
+      pendapatan_sub: DataTypes.BOOLEAN,
+      pendapatan_lain_sub: DataTypes.BOOLEAN,
+      pendapatan_admin_sub: DataTypes.BOOLEAN,
+      employees: DataTypes.BOOLEAN,
+      data_employee: DataTypes.BOOLEAN,
+      attribute: DataTypes.BOOLEAN,
+      setting: DataTypes.BOOLEAN,
+      overtime: DataTypes.BOOLEAN,
+      overtime_user: DataTypes.BOOLEAN,
+      overtime_superior: DataTypes.BOOLEAN,
+      overtime_assignor: DataTypes.BOOLEAN,
+      overtime_admin: DataTypes.BOOLEAN,
+      is_active: DataTypes.BOOLEAN,
     },
-    dashboard: DataTypes.BOOLEAN,
-    edit_user_sub: DataTypes.BOOLEAN,
-    absen: DataTypes.BOOLEAN,
-    kalendar_sub: DataTypes.BOOLEAN,
-    pengajuan_koreksi_sub: DataTypes.BOOLEAN,
-    approval_koreksi_sub: DataTypes.BOOLEAN,
-    approval_all_koreksi_sub: DataTypes.BOOLEAN,
-    absen_modal: DataTypes.BOOLEAN,
-    wfh_modal: DataTypes.BOOLEAN,
-    shift_modal: DataTypes.BOOLEAN,
-    absen_check: DataTypes.BOOLEAN,
-    admin_event: DataTypes.BOOLEAN,
-    perhitungan_absen: DataTypes.BOOLEAN,
-    slip_gaji: DataTypes.BOOLEAN,
-    pendapatan_sub: DataTypes.BOOLEAN,
-    pendapatan_lain_sub: DataTypes.BOOLEAN,
-    pendapatan_admin_sub: DataTypes.BOOLEAN,
-    employees: DataTypes.BOOLEAN,
-    data_employee: DataTypes.BOOLEAN,
-    attribute: DataTypes.BOOLEAN,
-    setting: DataTypes.BOOLEAN,
-    overtime: DataTypes.BOOLEAN,
-    overtime_user: DataTypes.BOOLEAN,
-    overtime_superior: DataTypes.BOOLEAN,
-    overtime_assignor: DataTypes.BOOLEAN,
-    overtime_admin: DataTypes.BOOLEAN,
-    is_active: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'privilege',
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    underscored: true,
-  });
+    {
+      sequelize,
+      modelName: "privilege",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      underscored: true,
+    },
+  );
   return privilege;
 };
