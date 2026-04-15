@@ -370,6 +370,8 @@ const updateData = async (req, res) => {
     pelanggaran_uuid,
     status_inout_uuid,
     jam_operasional_uuid,
+    latitude,
+    longitude,
     is_absen_web,
     is_active,
   } = req.body;
@@ -457,6 +459,8 @@ const updateData = async (req, res) => {
       pelanggaran_id: findPelanggaran && findPelanggaran.id,
       status_inout_id: findStatusInout && findStatusInout.id,
       jam_operasional_id: findJamOperasional && findJamOperasional.id,
+      latitude,
+      longitude,
       is_absen_web,
       is_active,
     });
