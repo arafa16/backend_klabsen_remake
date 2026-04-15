@@ -83,8 +83,9 @@ const getDataById = async (req, res) => {
 
 const getDataByUser = async (req, res) => {
   const { id } = req.params;
-  const { tahun } = req.query;
+  const { tahun, hide_koreksi } = req.query;
   let year = null;
+  let status_inout_id = null;
 
   let queryObjectYear = null;
 
@@ -127,10 +128,34 @@ const getDataByUser = async (req, res) => {
     year = getYear;
   }
 
+  let queryObjectKoreksi = null;
+
+  if (hide_koreksi === 1 || hide_koreksi === "1") {
+    console.log("hide koreksi");
+    const findStatusInout = await statusInoutModel.findOne({
+      where: {
+        code: "2",
+      },
+    });
+    if (findStatusInout) {
+      status_inout_id = findStatusInout.id;
+      queryObjectKoreksi = {
+        status_inout_id: {
+          [Op.ne]: status_inout_id,
+        },
+      };
+    } else {
+      queryObjectKoreksi = null;
+    }
+  }
+
+  console.log("queryObjectKoreksi", queryObjectKoreksi, req.query);
+
   try {
     const result = await inOutModel.findAll({
       where: {
         user_id: findUser.id,
+        ...queryObjectKoreksi,
         [Op.or]: [queryObjectYear],
       },
       attributes: ["uuid", "tanggal_mulai", "tanggal_selesai", "is_active"],
