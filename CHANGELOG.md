@@ -1,3 +1,13 @@
+#### v1.2.0 - 2026-05-01
+
+- build: make filter on pendapatan controller by [Ara Fa Adri](https://github.com/arafa16) in [#aeb0cbb](https://github.com/arafa16/frontend_klabsen_remake/commit/aeb0cbb2b47e42e2f29529f6f4f2fbbfa51caaa0).
+
+- Fix: change color when approved or not approved by [Ara Fa Adri](https://github.com/arafa16) in [#16e6eae](https://github.com/arafa16/frontend_klabsen_remake/commit/16e6eae50a27060a043854cd99870176522448fc).
+
+- build: make the default value of the absen_id field 0 by [Ara Fa Adri](https://github.com/arafa16) in [#720c294](https://github.com/arafa16/frontend_klabsen_remake/commit/720c294b62be413ed28b45beb0a35fac1148e5ed).
+
+- fixs: aplikasi error when user login because value status user is null by [Ara Fa Adri](https://github.com/arafa16) in [#331017e](https://github.com/arafa16/frontend_klabsen_remake/commit/331017edfec0133717590327c59787ac6917e23f).
+
 #### v1.1.0 - 2026-04-15
 
 - build: hide attandace with submission status in admin attandace page by [Ara Fa Adri](https://github.com/arafa16) in [#819dfce](https://github.com/arafa16/frontend_klabsen_remake/commit/819dfce254d7ab34c5a6784111d427e9fdcc7fb4).
