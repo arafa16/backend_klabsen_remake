@@ -527,6 +527,8 @@ const createDataByDate = async (req, res) => {
     is_absen_web,
   } = req.body;
 
+  console.log(req.body, "body koreksi");
+
   const findUser = await userModel.findOne({
     where: {
       uuid: user_id,
@@ -549,6 +551,18 @@ const createDataByDate = async (req, res) => {
       },
     });
   }
+
+  if (findUser.atasan === null) {
+    return res.status(404).json({
+      status: 404,
+      success: false,
+      datas: {
+        data: null,
+        message: "correction failed, atasan not found",
+      },
+    });
+  }
+
   const findStatusKoreksi = await statusKoreksiModel.findOne({
     where: {
       code: code_status_koreksi,
@@ -634,14 +648,6 @@ const createDataByDate = async (req, res) => {
     });
   }
 
-  // const msg = {
-  //     from: '"Support IT Kopkarla" <no-replay@kopkarla.co.id>',
-  //     to: user.atasan.email,
-  //     subject: "Koreksi Absen",
-  //     text:
-  //     `${user.name} membuat koreksi absen approver atas nama anda, please check in aplikasi`
-  // };
-
   const t = await db.sequelize.transaction();
 
   try {
@@ -658,14 +664,6 @@ const createDataByDate = async (req, res) => {
       },
       { transaction: t },
     );
-
-    // await Koreksi.create({
-    //     userId:user && user.id,
-    //     inOutId:createInOut.id,
-    //     keterangan:keterangan,
-    //     statusKoreksiId:statusKoreksi && statusKoreksi.id,
-    //     isActive:isActive
-    // });
 
     const result_koreksi = await koreksiModel.create(
       {
