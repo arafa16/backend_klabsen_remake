@@ -1,3 +1,12 @@
+#### v1.2.1 - 2026-05-12
+
+- build: update version 1.2.0 to 1.2.1 by [Ara Fa Adri](https://github.com/arafa16) in [#e7d496a](https://github.com/arafa16/frontend_klabsen_remake/commit/e7d496a5ec997a94eed0f75c9d1e56b8523c4c59).
+
+- fixs: trouble when create correction by [Ara Fa Adri](https://github.com/arafa16) in [#eff35ea](https://github.com/arafa16/frontend_klabsen_remake/commit/eff35eaabe97112954b256862aee6a9581b80dcd).
+
+- fixs: trouble when create correction by [Ara Fa Adri](https://github.com/arafa16) in [#c599fcb](https://github.com/arafa16/frontend_klabsen_remake/commit/c599fcb7b81ea57f8750aaf5c84122bd1eb0bc66).
+
+
 #### v1.2.0 - 2026-05-01
 
 - build: make filter on pendapatan controller by [Ara Fa Adri](https://github.com/arafa16) in [#aeb0cbb](https://github.com/arafa16/frontend_klabsen_remake/commit/aeb0cbb2b47e42e2f29529f6f4f2fbbfa51caaa0).
