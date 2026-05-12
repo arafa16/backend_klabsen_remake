@@ -223,6 +223,17 @@ const createData = async (req, res) => {
     });
   }
 
+  if (findUser.atasan === null) {
+    return res.status(404).json({
+      status: 404,
+      success: false,
+      datas: {
+        data: null,
+        message: "correction failed, atasan not found",
+      },
+    });
+  }
+
   const findStatusKoreksi = await statusKoreksiModel.findOne({
     where: {
       code: code_status_koreksi,
@@ -526,8 +537,6 @@ const createDataByDate = async (req, res) => {
     jam_operasional_id,
     is_absen_web,
   } = req.body;
-
-  console.log(req.body, "body koreksi");
 
   const findUser = await userModel.findOne({
     where: {
