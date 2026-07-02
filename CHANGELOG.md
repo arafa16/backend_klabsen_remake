@@ -1,3 +1,9 @@
+#### v1.3.1 - 2026-07-02
+
+- build: change version 1.2.1 to 1.3.1 by [Ara Fa Adri](https://github.com/arafa16) in [#9d39fd0](https://github.com/arafa16/frontend_klabsen_remake/commit/9d39fd01a5a34bd632d5711a6b04191fd43f6f77).
+
+- build: change to filter by user and status in the calculate controller by [Ara Fa Adri](https://github.com/arafa16) in [#929eead](https://github.com/arafa16/frontend_klabsen_remake/commit/929eeada1b854551719696878f0b59ca335a0e2f).
+
 #### v1.2.1 - 2026-05-12
 
 - build: update version 1.2.0 to 1.2.1 by [Ara Fa Adri](https://github.com/arafa16) in [#e7d496a](https://github.com/arafa16/frontend_klabsen_remake/commit/e7d496a5ec997a94eed0f75c9d1e56b8523c4c59).
